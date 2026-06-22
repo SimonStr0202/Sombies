@@ -1,0 +1,51 @@
+{
+  "originHash" : "175a95dd0bb1be1a8f61962f2d5de4983054eef9ef67149ceafebe0a2111f937",
+  "pins" : [
+    {
+      "identity" : "gamecenterkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fserrazes/GameCenterKit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "cd3ffab0cc67c610584fdb80628841c06f323c0b"
+      }
+    },
+    {
+      "identity" : "slidebutton",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/no-comment/SlideButton",
+      "state" : {
+        "branch" : "main",
+        "revision" : "5eacebba4d7deeb693592bc9a62ab2d2181e133b"
+      }
+    },
+    {
+      "identity" : "swiftui-shimmer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/markiv/SwiftUI-Shimmer",
+      "state" : {
+        "revision" : "0226e21f9bf355d40e07e5f5e1c33679d50e167f",
+        "version" : "1.5.1"
+      }
+    },
+    {
+      "identity" : "swiftui-toasts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sunghyun-k/swiftui-toasts.git",
+      "state" : {
+        "revision" : "2b3b062f4d485de6ddc03797e5dbb81c261bf78b",
+        "version" : "1.1.2"
+      }
+    },
+    {
+      "identity" : "swiftui-window-overlay",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sunghyun-k/swiftui-window-overlay.git",
+      "state" : {
+        "revision" : "46739300713772a62a3bf31d77f8f23ba9cf61f7",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 3
+}

@@ -1,0 +1,47 @@
+{
+  "meta" : {
+    "version" : "2024-11-15"
+  },
+  "resources" : {
+    "achievements" : [
+      {
+        "activityProperties" : {
+
+        },
+        "archived" : false,
+        "points" : 0,
+        "referenceName" : "So Close",
+        "repeatable" : false,
+        "showBeforeEarned" : true,
+        "vendorIdentifier" : "Sombies.Achievements.SoClose"
+      },
+      {
+        "activityProperties" : {
+
+        },
+        "archived" : false,
+        "points" : 0,
+        "referenceName" : "Power Shot",
+        "repeatable" : false,
+        "showBeforeEarned" : true,
+        "vendorIdentifier" : "Sombies.Achievements.PowerShot"
+      }
+    ],
+    "leaderboards" : [
+      {
+        "activityProperties" : {
+
+        },
+        "archived" : false,
+        "defaultFormatter" : "DECIMAL_POINT_2_PLACE",
+        "referenceName" : "Longest Distance",
+        "scoreRangeEnd" : null,
+        "scoreRangeStart" : null,
+        "scoreSortType" : "DESC",
+        "submissionType" : "BEST_SCORE",
+        "vendorIdentifier" : "Sombies.Leaderboards.LongestDistance",
+        "visibility" : "SHOW_FOR_ALL"
+      }
+    ]
+  }
+}

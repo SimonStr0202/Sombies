@@ -1,0 +1,876 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F40EC1492FE862B0002456A1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F40EC1482FE862B0002456A1 /* README.md */; };
+		F40EC14A2FE862B0002456A1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F40EC1482FE862B0002456A1 /* README.md */; };
+		F417BC662FBCE45A00DAAFC6 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = F417BC652FBCE45A00DAAFC6 /* Shimmer */; };
+		F457BB0F2F61F6930063A1E7 /* SlideButton in Frameworks */ = {isa = PBXBuildFile; productRef = F457BB0E2F61F6930063A1E7 /* SlideButton */; };
+		F47062302FB259A60025A2E3 /* GameCenterKit in Frameworks */ = {isa = PBXBuildFile; productRef = F470622F2FB259A60025A2E3 /* GameCenterKit */; };
+		F490979D2FBB9AE3004B07DF /* Toasts in Frameworks */ = {isa = PBXBuildFile; productRef = F490979C2FBB9AE3004B07DF /* Toasts */; };
+		F49BCD442F68808600BA1B36 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD392F68808600BA1B36 /* LocationManager.swift */; };
+		F49BCD542F68810000BA1B36 /* SombiesWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = F49BCD4A2F6880FF00BA1B36 /* SombiesWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F49BCD592F6881C900BA1B36 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD392F68808600BA1B36 /* LocationManager.swift */; };
+		F49BCD5C2F68826600BA1B36 /* WatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD5B2F68826600BA1B36 /* WatchConnector.swift */; };
+		F49BCD5D2F68826D00BA1B36 /* WatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD5B2F68826600BA1B36 /* WatchConnector.swift */; };
+		F49BCD672F68868D00BA1B36 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49BCD662F68868D00BA1B36 /* WidgetKit.framework */; };
+		F49BCD692F68868D00BA1B36 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49BCD682F68868D00BA1B36 /* SwiftUI.framework */; };
+		F49BCD782F68868F00BA1B36 /* SombiesWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F49BCD642F68868D00BA1B36 /* SombiesWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F49BCD832F688C9700BA1B36 /* ZombieActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD822F688C9700BA1B36 /* ZombieActivityManager.swift */; };
+		F49BCD852F688C9C00BA1B36 /* ZombieActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD822F688C9700BA1B36 /* ZombieActivityManager.swift */; };
+		F49BCD872F688E0300BA1B36 /* SombiesWidgetsAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD862F688E0300BA1B36 /* SombiesWidgetsAttributes.swift */; };
+		F49BCD882F688E0300BA1B36 /* SombiesWidgetsAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD862F688E0300BA1B36 /* SombiesWidgetsAttributes.swift */; };
+		F4B946482F60A1250062C584 /* extendedSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = F4B946472F60A1250062C584 /* extendedSyntax */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F49BCD522F68810000BA1B36 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F447306D2F5C9FCC0082B17B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F49BCD492F6880FF00BA1B36;
+			remoteInfo = "SombiesWatch Watch App";
+		};
+		F49BCD762F68868F00BA1B36 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F447306D2F5C9FCC0082B17B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F49BCD632F68868D00BA1B36;
+			remoteInfo = SombiesWidgetsExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F49BCD552F68810000BA1B36 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				F49BCD542F68810000BA1B36 /* SombiesWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F49BCD7D2F68868F00BA1B36 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F49BCD782F68868F00BA1B36 /* SombiesWidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F40EC1482FE862B0002456A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F44730752F5C9FCC0082B17B /* Sombies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sombies.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F49BCD392F68808600BA1B36 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		F49BCD4A2F6880FF00BA1B36 /* SombiesWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SombiesWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F49BCD5B2F68826600BA1B36 /* WatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnector.swift; sourceTree = "<group>"; };
+		F49BCD642F68868D00BA1B36 /* SombiesWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SombiesWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F49BCD662F68868D00BA1B36 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		F49BCD682F68868D00BA1B36 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		F49BCD822F688C9700BA1B36 /* ZombieActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZombieActivityManager.swift; sourceTree = "<group>"; };
+		F49BCD862F688E0300BA1B36 /* SombiesWidgetsAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SombiesWidgetsAttributes.swift; sourceTree = "<group>"; };
+		F4CD4D4C2FE7E802000F0CE5 /* SombiesWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SombiesWidgetsExtension.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F407816D2FB3AA980011FFDA /* Exceptions for "Sombies" folder in "SombiesWatch Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				SombiesIcon.icon,
+			);
+			target = F49BCD492F6880FF00BA1B36 /* SombiesWatch Watch App */;
+		};
+		F44730862F5CA6FE0082B17B /* Exceptions for "Sombies" folder in "Sombies" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F44730742F5C9FCC0082B17B /* Sombies */;
+		};
+		F49BCD7C2F68868F00BA1B36 /* Exceptions for "SombiesWidgets" folder in "SombiesWidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F49BCD632F68868D00BA1B36 /* SombiesWidgetsExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		F44730772F5C9FCC0082B17B /* Sombies */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F44730862F5CA6FE0082B17B /* Exceptions for "Sombies" folder in "Sombies" target */,
+				F407816D2FB3AA980011FFDA /* Exceptions for "Sombies" folder in "SombiesWatch Watch App" target */,
+			);
+			path = Sombies;
+			sourceTree = "<group>";
+		};
+		F49BCD4B2F6880FF00BA1B36 /* SombiesWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "SombiesWatch Watch App";
+			sourceTree = "<group>";
+		};
+		F49BCD6A2F68868D00BA1B36 /* SombiesWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F49BCD7C2F68868F00BA1B36 /* Exceptions for "SombiesWidgets" folder in "SombiesWidgetsExtension" target */,
+			);
+			path = SombiesWidgets;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F44730722F5C9FCC0082B17B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F490979D2FBB9AE3004B07DF /* Toasts in Frameworks */,
+				F417BC662FBCE45A00DAAFC6 /* Shimmer in Frameworks */,
+				F457BB0F2F61F6930063A1E7 /* SlideButton in Frameworks */,
+				F47062302FB259A60025A2E3 /* GameCenterKit in Frameworks */,
+				F4B946482F60A1250062C584 /* extendedSyntax in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F49BCD472F6880FF00BA1B36 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F49BCD612F68868D00BA1B36 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F49BCD692F68868D00BA1B36 /* SwiftUI.framework in Frameworks */,
+				F49BCD672F68868D00BA1B36 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F447306C2F5C9FCC0082B17B = {
+			isa = PBXGroup;
+			children = (
+				F40EC1482FE862B0002456A1 /* README.md */,
+				F4CD4D4C2FE7E802000F0CE5 /* SombiesWidgetsExtension.entitlements */,
+				F49BCD822F688C9700BA1B36 /* ZombieActivityManager.swift */,
+				F49BCD392F68808600BA1B36 /* LocationManager.swift */,
+				F49BCD5B2F68826600BA1B36 /* WatchConnector.swift */,
+				F44730772F5C9FCC0082B17B /* Sombies */,
+				F49BCD4B2F6880FF00BA1B36 /* SombiesWatch Watch App */,
+				F49BCD6A2F68868D00BA1B36 /* SombiesWidgets */,
+				F49BCD652F68868D00BA1B36 /* Frameworks */,
+				F44730762F5C9FCC0082B17B /* Products */,
+				F49BCD862F688E0300BA1B36 /* SombiesWidgetsAttributes.swift */,
+			);
+			sourceTree = "<group>";
+		};
+		F44730762F5C9FCC0082B17B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F44730752F5C9FCC0082B17B /* Sombies.app */,
+				F49BCD4A2F6880FF00BA1B36 /* SombiesWatch Watch App.app */,
+				F49BCD642F68868D00BA1B36 /* SombiesWidgetsExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F49BCD652F68868D00BA1B36 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F49BCD662F68868D00BA1B36 /* WidgetKit.framework */,
+				F49BCD682F68868D00BA1B36 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F44730742F5C9FCC0082B17B /* Sombies */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F44730802F5C9FCD0082B17B /* Build configuration list for PBXNativeTarget "Sombies" */;
+			buildPhases = (
+				F44730712F5C9FCC0082B17B /* Sources */,
+				F44730722F5C9FCC0082B17B /* Frameworks */,
+				F44730732F5C9FCC0082B17B /* Resources */,
+				F49BCD552F68810000BA1B36 /* Embed Watch Content */,
+				F49BCD7D2F68868F00BA1B36 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F49BCD532F68810000BA1B36 /* PBXTargetDependency */,
+				F49BCD772F68868F00BA1B36 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F44730772F5C9FCC0082B17B /* Sombies */,
+			);
+			name = Sombies;
+			packageProductDependencies = (
+				F4B946472F60A1250062C584 /* extendedSyntax */,
+				F457BB0E2F61F6930063A1E7 /* SlideButton */,
+				F470622F2FB259A60025A2E3 /* GameCenterKit */,
+				F490979C2FBB9AE3004B07DF /* Toasts */,
+				F417BC652FBCE45A00DAAFC6 /* Shimmer */,
+			);
+			productName = Sombies;
+			productReference = F44730752F5C9FCC0082B17B /* Sombies.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F49BCD492F6880FF00BA1B36 /* SombiesWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F49BCD582F68810000BA1B36 /* Build configuration list for PBXNativeTarget "SombiesWatch Watch App" */;
+			buildPhases = (
+				F49BCD462F6880FF00BA1B36 /* Sources */,
+				F49BCD472F6880FF00BA1B36 /* Frameworks */,
+				F49BCD482F6880FF00BA1B36 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F49BCD4B2F6880FF00BA1B36 /* SombiesWatch Watch App */,
+			);
+			name = "SombiesWatch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "SombiesWatch Watch App";
+			productReference = F49BCD4A2F6880FF00BA1B36 /* SombiesWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F49BCD632F68868D00BA1B36 /* SombiesWidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F49BCD792F68868F00BA1B36 /* Build configuration list for PBXNativeTarget "SombiesWidgetsExtension" */;
+			buildPhases = (
+				F49BCD602F68868D00BA1B36 /* Sources */,
+				F49BCD612F68868D00BA1B36 /* Frameworks */,
+				F49BCD622F68868D00BA1B36 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F49BCD6A2F68868D00BA1B36 /* SombiesWidgets */,
+			);
+			name = SombiesWidgetsExtension;
+			packageProductDependencies = (
+			);
+			productName = SombiesWidgetsExtension;
+			productReference = F49BCD642F68868D00BA1B36 /* SombiesWidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F447306D2F5C9FCC0082B17B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					F44730742F5C9FCC0082B17B = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					F49BCD492F6880FF00BA1B36 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					F49BCD632F68868D00BA1B36 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+				};
+			};
+			buildConfigurationList = F44730702F5C9FCC0082B17B /* Build configuration list for PBXProject "Sombies" */;
+			developmentRegion = de;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				de,
+			);
+			mainGroup = F447306C2F5C9FCC0082B17B;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F4B946462F60A1250062C584 /* XCLocalSwiftPackageReference "../extendedSyntax" */,
+				F457BB0D2F61F6930063A1E7 /* XCRemoteSwiftPackageReference "SlideButton" */,
+				F470622E2FB259A60025A2E3 /* XCRemoteSwiftPackageReference "GameCenterKit" */,
+				F490979B2FBB9AE3004B07DF /* XCRemoteSwiftPackageReference "swiftui-toasts" */,
+				F417BC642FBCE45A00DAAFC6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F44730762F5C9FCC0082B17B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F44730742F5C9FCC0082B17B /* Sombies */,
+				F49BCD492F6880FF00BA1B36 /* SombiesWatch Watch App */,
+				F49BCD632F68868D00BA1B36 /* SombiesWidgetsExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F44730732F5C9FCC0082B17B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F40EC1492FE862B0002456A1 /* README.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F49BCD482F6880FF00BA1B36 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F40EC14A2FE862B0002456A1 /* README.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F49BCD622F68868D00BA1B36 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F44730712F5C9FCC0082B17B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F49BCD872F688E0300BA1B36 /* SombiesWidgetsAttributes.swift in Sources */,
+				F49BCD5C2F68826600BA1B36 /* WatchConnector.swift in Sources */,
+				F49BCD832F688C9700BA1B36 /* ZombieActivityManager.swift in Sources */,
+				F49BCD442F68808600BA1B36 /* LocationManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F49BCD462F6880FF00BA1B36 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F49BCD5D2F68826D00BA1B36 /* WatchConnector.swift in Sources */,
+				F49BCD592F6881C900BA1B36 /* LocationManager.swift in Sources */,
+				F49BCD882F688E0300BA1B36 /* SombiesWidgetsAttributes.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F49BCD602F68868D00BA1B36 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F49BCD852F688C9C00BA1B36 /* ZombieActivityManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F49BCD532F68810000BA1B36 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F49BCD492F6880FF00BA1B36 /* SombiesWatch Watch App */;
+			targetProxy = F49BCD522F68810000BA1B36 /* PBXContainerItemProxy */;
+		};
+		F49BCD772F68868F00BA1B36 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F49BCD632F68868D00BA1B36 /* SombiesWidgetsExtension */;
+			targetProxy = F49BCD762F68868F00BA1B36 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F447307E2F5C9FCD0082B17B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = X8W5PFMT8J;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F447307F2F5C9FCD0082B17B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = X8W5PFMT8J;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F44730812F5C9FCD0082B17B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = SombiesIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sombies/Sombies.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X8W5PFMT8J;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sombies/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Verbinde dich mit anderen Leuten in der Nähe, um das Spiel zu spielen";
+				INFOPLIST_KEY_NSBluetoothWhileInUseUsageDescription = "Verbinde dich mit anderen Leuten in der Nähe, um das Spiel zu spielen";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Aktiviere Face ID, um Teile der App zu sperren";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Wenn du deine gelaufenen Strecken als Training in Health & Fitness anzeigen lassen willst, können wir das für dich übernehmen";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Wenn du deine gelaufenen Strecken als Training in Health & Fitness anzeigen lassen willst, können wir das für dich übernehmen";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Verbinde dich mit anderen Leuten in der Nähe, um das Spiel zu spielen";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Wir brauchen Zugriff auf deinen Standort, damit die Zombies dich finden.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simonstr.Sombies;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F44730822F5C9FCD0082B17B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = SombiesIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sombies/Sombies.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X8W5PFMT8J;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sombies/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Verbinde dich mit anderen Leuten in der Nähe, um das Spiel zu spielen";
+				INFOPLIST_KEY_NSBluetoothWhileInUseUsageDescription = "Verbinde dich mit anderen Leuten in der Nähe, um das Spiel zu spielen";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Aktiviere Face ID, um Teile der App zu sperren";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Wenn du deine gelaufenen Strecken als Training in Health & Fitness anzeigen lassen willst, können wir das für dich übernehmen";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Wenn du deine gelaufenen Strecken als Training in Health & Fitness anzeigen lassen willst, können wir das für dich übernehmen";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Verbinde dich mit anderen Leuten in der Nähe, um das Spiel zu spielen";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Wir brauchen Zugriff auf deinen Standort, damit die Zombies dich finden.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simonstr.Sombies;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F49BCD562F68810000BA1B36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = SombiesIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X8W5PFMT8J;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Sombies;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.simonstr.Sombies;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simonstr.Sombies.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		F49BCD572F68810000BA1B36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = SombiesIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X8W5PFMT8J;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Sombies;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.simonstr.Sombies;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simonstr.Sombies.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		F49BCD7A2F68868F00BA1B36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SombiesWidgetsExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X8W5PFMT8J;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SombiesWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SombiesWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simonstr.Sombies.SombiesWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F49BCD7B2F68868F00BA1B36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SombiesWidgetsExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X8W5PFMT8J;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SombiesWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SombiesWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simonstr.Sombies.SombiesWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F44730702F5C9FCC0082B17B /* Build configuration list for PBXProject "Sombies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F447307E2F5C9FCD0082B17B /* Debug */,
+				F447307F2F5C9FCD0082B17B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F44730802F5C9FCD0082B17B /* Build configuration list for PBXNativeTarget "Sombies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F44730812F5C9FCD0082B17B /* Debug */,
+				F44730822F5C9FCD0082B17B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F49BCD582F68810000BA1B36 /* Build configuration list for PBXNativeTarget "SombiesWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F49BCD562F68810000BA1B36 /* Debug */,
+				F49BCD572F68810000BA1B36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F49BCD792F68868F00BA1B36 /* Build configuration list for PBXNativeTarget "SombiesWidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F49BCD7A2F68868F00BA1B36 /* Debug */,
+				F49BCD7B2F68868F00BA1B36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		F4B946462F60A1250062C584 /* XCLocalSwiftPackageReference "../extendedSyntax" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../extendedSyntax;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F417BC642FBCE45A00DAAFC6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.1;
+			};
+		};
+		F457BB0D2F61F6930063A1E7 /* XCRemoteSwiftPackageReference "SlideButton" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/no-comment/SlideButton";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		F470622E2FB259A60025A2E3 /* XCRemoteSwiftPackageReference "GameCenterKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fserrazes/GameCenterKit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		F490979B2FBB9AE3004B07DF /* XCRemoteSwiftPackageReference "swiftui-toasts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sunghyun-k/swiftui-toasts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F417BC652FBCE45A00DAAFC6 /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F417BC642FBCE45A00DAAFC6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
+		};
+		F457BB0E2F61F6930063A1E7 /* SlideButton */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F457BB0D2F61F6930063A1E7 /* XCRemoteSwiftPackageReference "SlideButton" */;
+			productName = SlideButton;
+		};
+		F470622F2FB259A60025A2E3 /* GameCenterKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F470622E2FB259A60025A2E3 /* XCRemoteSwiftPackageReference "GameCenterKit" */;
+			productName = GameCenterKit;
+		};
+		F490979C2FBB9AE3004B07DF /* Toasts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F490979B2FBB9AE3004B07DF /* XCRemoteSwiftPackageReference "swiftui-toasts" */;
+			productName = Toasts;
+		};
+		F4B946472F60A1250062C584 /* extendedSyntax */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = extendedSyntax;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = F447306D2F5C9FCC0082B17B /* Project object */;
+}
