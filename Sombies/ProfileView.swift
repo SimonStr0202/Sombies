@@ -648,6 +648,7 @@ struct SeasonPassView: View {
                                 .padding()
                                 .frame(width: 100, height: 120)
                                 .glassEffect(.regular.tint(vm.lastClaimedSeasonPassReward >= reward.lvl ? .blue : .clear))
+                                .id(reward.lvl)
                                 if reward.lvl < defaultRewards.count {
                                     ZStack(alignment: .leading) {
                                         Capsule()
@@ -706,6 +707,11 @@ struct SeasonPassView: View {
                     .padding()
                     .onAppear {
                         if defaultRewards.isEmpty { generateRewards() }
+                        if vm.lastPremiumSeasonPass != Calendar.current.component(.year, from: Date()) {
+                            proxy.scrollTo(vm.lastClaimedSeasonPassReward)
+                        } else {
+                            proxy.scrollTo(vm.lastClaimedSeasonPassPremiumReward)
+                        }
                         if Calendar.current.component(.year, from: Date()) != vm.currentSeason {
                             vm.seasonPassLevel = 0
                             vm.seasonXPPoints = 0
@@ -736,6 +742,7 @@ struct SeasonPassView: View {
                                 try await Task.sleep(nanoseconds: 1_000_000_000)
                                 if vm.coins >= 300 {
                                     vm.coins -= 300
+                                    vm.lastPremiumSeasonPass = Calendar.current.component(.year, from: Date())
                                     withAnimation {
                                         showPremiumPurchase.toggle()
                                     }
