@@ -1204,6 +1204,22 @@
         }
       }
     },
+    "Lizenz nicht vorhanden" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lizenz nicht vorhanden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "License not found"
+          }
+        }
+      }
+    },
     "Los" : {
       "localizations" : {
         "de" : {
@@ -1755,6 +1771,9 @@
       "shouldTranslate" : false
     },
     "swiftui-toasts" : {
+      "shouldTranslate" : false
+    },
+    "swiftui-window-overlay" : {
       "shouldTranslate" : false
     },
     "Tab" : {

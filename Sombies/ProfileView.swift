@@ -472,7 +472,7 @@ struct OpenSources: View {
                 TabView {
                     Tab("Lizenz", systemImage: "sparkle.text.clipboard", content: {
                         ScrollView {
-                            Text(readBundleFile(name: "LICENSE_SLIDEBUTTON") ?? "?")
+                            Text(readBundleFile(name: "LICENSE_SLIDEBUTTON") ?? String(localized: "Lizenz nicht vorhanden"))
                                 .monospaced()
                                 .padding()
                         }
@@ -492,16 +492,11 @@ struct OpenSources: View {
             })
             NavigationLink("GameCenterKit", destination: {
                 TabView {
-                    Tab("Lizenz", systemImage: "sparkle.text.clipboard", content: {
-                        ScrollView {
-                            Text(readBundleFile(name: "LICENSE_GAMECENTERKIT") ?? "?")
-                                .monospaced()
-                                .padding()
-                        }
-                    })
-                    Tab("Beispiel", systemImage: "star.hexagon", content: {
-                        GameCenterView()
-                    })
+                    ScrollView {
+                        Text(readBundleFile(name: "LICENSE_GAMECENTERKIT") ?? String(localized: "Lizenz nicht vorhanden"))
+                            .monospaced()
+                            .padding()
+                    }
                 }
                 .navigationTitle("GameCenterKit")
             })
@@ -509,7 +504,7 @@ struct OpenSources: View {
                 TabView {
                     Tab("Lizenz", systemImage: "sparkle.text.clipboard", content: {
                         ScrollView {
-                            Text(readBundleFile(name: "LICENSE_SWIFTUITOASTS") ?? "?")
+                            Text(readBundleFile(name: "LICENSE_SWIFTUITOASTS") ?? String(localized: "Lizenz nicht vorhanden"))
                                 .monospaced()
                                 .padding()
                         }
@@ -543,7 +538,7 @@ struct OpenSources: View {
                 TabView {
                     Tab("Lizenz", systemImage: "sparkle.text.clipboard", content: {
                         ScrollView {
-                            Text(readBundleFile(name: "LICENSE_SWIFTUISHIMMER") ?? "?")
+                            Text(readBundleFile(name: "LICENSE_SWIFTUISHIMMER") ?? String(localized: "Lizenz nicht vorhanden"))
                                 .monospaced()
                                 .padding()
                         }
@@ -564,6 +559,16 @@ struct OpenSources: View {
                     })
                 }
                 .navigationTitle("SwiftUI-Shimmer")
+            })
+            NavigationLink("swiftui-window-overlay", destination: {
+                TabView {
+                    ScrollView {
+                        Text(readBundleFile(name: "LICENSE_SWIFTUIWINDOWOVERLAY") ?? String(localized: "Lizenz nicht vorhanden"))
+                            .monospaced()
+                            .padding()
+                    }
+                }
+                .navigationTitle("swiftui-window-overlay")
             })
         }
         .navigationTitle("Open-Source Lizenzen")
