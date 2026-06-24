@@ -29,13 +29,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F49BCD522F68810000BA1B36 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F447306D2F5C9FCC0082B17B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F49BCD492F6880FF00BA1B36;
-			remoteInfo = "SombiesWatch Watch App";
-		};
 		F49BCD762F68868F00BA1B36 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F447306D2F5C9FCC0082B17B /* Project object */;
@@ -165,6 +158,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F425BAE52FEC2A7000F39398 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				F49BCD4A2F6880FF00BA1B36 /* SombiesWatch Watch App.app */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		F447306C2F5C9FCC0082B17B = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +180,7 @@
 				F49BCD652F68868D00BA1B36 /* Frameworks */,
 				F44730762F5C9FCC0082B17B /* Products */,
 				F49BCD862F688E0300BA1B36 /* SombiesWidgetsAttributes.swift */,
+				F425BAE52FEC2A7000F39398 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				F44730752F5C9FCC0082B17B /* Sombies.app */,
-				F49BCD4A2F6880FF00BA1B36 /* SombiesWatch Watch App.app */,
 				F49BCD642F68868D00BA1B36 /* SombiesWidgetsExtension.appex */,
 			);
 			name = Products;
@@ -217,7 +218,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				F49BCD532F68810000BA1B36 /* PBXTargetDependency */,
 				F49BCD772F68868F00BA1B36 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
@@ -388,11 +388,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F49BCD532F68810000BA1B36 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F49BCD492F6880FF00BA1B36 /* SombiesWatch Watch App */;
-			targetProxy = F49BCD522F68810000BA1B36 /* PBXContainerItemProxy */;
-		};
 		F49BCD772F68868F00BA1B36 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F49BCD632F68868D00BA1B36 /* SombiesWidgetsExtension */;
@@ -552,8 +547,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -601,8 +596,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

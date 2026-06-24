@@ -82,6 +82,7 @@
       }
     },
     "%lld/100" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -98,6 +99,7 @@
       }
     },
     "%llds" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -114,6 +116,7 @@
       }
     },
     "+%lld Münzen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -130,6 +133,7 @@
       }
     },
     "+%lld XP" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -194,6 +198,7 @@
       }
     },
     "Aktiv" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -705,6 +710,22 @@
         }
       }
     },
+    "Ein Fehler ist aufgetreten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Fehler ist aufgetreten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An error occurred"
+          }
+        }
+      }
+    },
     "Ein Fehler ist aufgetreten: %@" : {
       "localizations" : {
         "de" : {
@@ -898,6 +919,7 @@
       }
     },
     "Game over!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -909,6 +931,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Game over!"
+          }
+        }
+      }
+    },
+    "Game Over!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game Over!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game Over!"
           }
         }
       }
@@ -1461,6 +1499,7 @@
       }
     },
     "Pausiert" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1969,6 +2008,7 @@
       }
     },
     "Warten..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
