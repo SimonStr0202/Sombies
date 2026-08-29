@@ -21,14 +21,19 @@
 		F49BCD672F68868D00BA1B36 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49BCD662F68868D00BA1B36 /* WidgetKit.framework */; };
 		F49BCD692F68868D00BA1B36 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49BCD682F68868D00BA1B36 /* SwiftUI.framework */; };
 		F49BCD782F68868F00BA1B36 /* SombiesWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F49BCD642F68868D00BA1B36 /* SombiesWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F49BCD832F688C9700BA1B36 /* ZombieActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD822F688C9700BA1B36 /* ZombieActivityManager.swift */; };
-		F49BCD852F688C9C00BA1B36 /* ZombieActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD822F688C9700BA1B36 /* ZombieActivityManager.swift */; };
 		F49BCD872F688E0300BA1B36 /* SombiesWidgetsAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD862F688E0300BA1B36 /* SombiesWidgetsAttributes.swift */; };
 		F49BCD882F688E0300BA1B36 /* SombiesWidgetsAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD862F688E0300BA1B36 /* SombiesWidgetsAttributes.swift */; };
 		F4B946482F60A1250062C584 /* extendedSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = F4B946472F60A1250062C584 /* extendedSyntax */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F40007762FEF132F0074685D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F447306D2F5C9FCC0082B17B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F49BCD492F6880FF00BA1B36;
+			remoteInfo = "SombiesWatch Watch App";
+		};
 		F49BCD762F68868F00BA1B36 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F447306D2F5C9FCC0082B17B /* Project object */;
@@ -72,7 +77,6 @@
 		F49BCD642F68868D00BA1B36 /* SombiesWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SombiesWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49BCD662F68868D00BA1B36 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		F49BCD682F68868D00BA1B36 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		F49BCD822F688C9700BA1B36 /* ZombieActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZombieActivityManager.swift; sourceTree = "<group>"; };
 		F49BCD862F688E0300BA1B36 /* SombiesWidgetsAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SombiesWidgetsAttributes.swift; sourceTree = "<group>"; };
 		F4CD4D4C2FE7E802000F0CE5 /* SombiesWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SombiesWidgetsExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,7 +175,6 @@
 			children = (
 				F40EC1482FE862B0002456A1 /* README.md */,
 				F4CD4D4C2FE7E802000F0CE5 /* SombiesWidgetsExtension.entitlements */,
-				F49BCD822F688C9700BA1B36 /* ZombieActivityManager.swift */,
 				F49BCD392F68808600BA1B36 /* LocationManager.swift */,
 				F49BCD5B2F68826600BA1B36 /* WatchConnector.swift */,
 				F44730772F5C9FCC0082B17B /* Sombies */,
@@ -219,6 +222,7 @@
 			);
 			dependencies = (
 				F49BCD772F68868F00BA1B36 /* PBXTargetDependency */,
+				F40007772FEF132F0074685D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				F44730772F5C9FCC0082B17B /* Sombies */,
@@ -362,7 +366,6 @@
 			files = (
 				F49BCD872F688E0300BA1B36 /* SombiesWidgetsAttributes.swift in Sources */,
 				F49BCD5C2F68826600BA1B36 /* WatchConnector.swift in Sources */,
-				F49BCD832F688C9700BA1B36 /* ZombieActivityManager.swift in Sources */,
 				F49BCD442F68808600BA1B36 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,13 +384,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F49BCD852F688C9C00BA1B36 /* ZombieActivityManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F40007772FEF132F0074685D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F49BCD492F6880FF00BA1B36 /* SombiesWatch Watch App */;
+			targetProxy = F40007762FEF132F0074685D /* PBXContainerItemProxy */;
+		};
 		F49BCD772F68868F00BA1B36 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F49BCD632F68868D00BA1B36 /* SombiesWidgetsExtension */;

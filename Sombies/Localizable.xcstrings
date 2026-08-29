@@ -774,6 +774,9 @@
         }
       }
     },
+    "Ein Zombie hat dich erwischt! Lauf schneller!" : {
+
+    },
     "Einstellungen" : {
       "localizations" : {
         "de" : {
@@ -1864,6 +1867,7 @@
       }
     },
     "Temperatur anzeigen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2087,6 +2091,9 @@
           }
         }
       }
+    },
+    "Zombie-Angriff!" : {
+
     },
     "Zu Health hinzufügen" : {
       "localizations" : {

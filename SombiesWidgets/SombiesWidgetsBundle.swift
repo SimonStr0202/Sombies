@@ -6,6 +6,6 @@ struct SombiesWidgetsBundle: WidgetBundle {
     var body: some Widget {
         SombiesWidgets()
         //SombiesWidgetsControl()
-        //SombiesWidgetsLiveActivity()
+        SombiesWidgetsLiveActivity()
     }
 }

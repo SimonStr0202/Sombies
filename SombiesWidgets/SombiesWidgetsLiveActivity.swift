@@ -59,7 +59,6 @@ struct SombiesWidgetsLiveActivity: Widget {
             } minimal: {
                 Text("\(context.state.distance)m")
             }
-            .widgetURL(URL(string: "http://www.apple.com"))
             .keylineTint(Color.red)
         }
     }

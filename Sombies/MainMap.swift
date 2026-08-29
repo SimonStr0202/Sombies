@@ -123,7 +123,6 @@ struct MainMap: View {
         .onChange(of: locManager.lastLocation) {
             guard let coord = locManager.lastLocation?.coordinate else { return }
             btManager.broadcastLocation(coord, spd: locManager.speedInKmh)
-            Logger.network.info("Sent Location")
             if btManager.gameState == .active && locManager.lastLocation != nil {
                 vm.runLog.append(locManager.lastLocation!)
             }
@@ -139,9 +138,7 @@ struct MainMap: View {
         .onReceive(vm.gameTimr) { _ in
             gameTimr()
             vm.updateDeviceInfo()
-        }
-        .onReceive(vm.mediumTimr) { _ in
-            ZombieActivityManager.shared.update(distance: btManager.closestZombieDistance ?? 0, ping: Int(btManager.lastPing))
+            BluetoothManager.shared.updateLiveActivity(statusMessage: "Ja")
         }
         .onReceive(vm.longTimr) { _ in
             if btManager.syncedZombies.count < 15 {
@@ -165,6 +162,7 @@ struct MainMap: View {
             vm.gameRunning = true
             vm.gameStopwatch = 0
             vm.runStartDate = Date()
+            BluetoothManager.shared.startLiveActivity()
             if !btManager.isHosting {
                 switch btManager.gameMode {
                 case -1:
@@ -190,7 +188,7 @@ struct MainMap: View {
             vm.overviewShown = true
             btManager.localItems.removeAll()
             btManager.stopAll()
-            ZombieActivityManager.shared.stopActivity()
+            BluetoothManager.shared.endLiveActivity(finalMessage: "Ende!")
             vm.inGame = false
             vm.gameRunning = false
             vm.runEndDate = Date()

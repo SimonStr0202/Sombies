@@ -1,6 +1,7 @@
 import Foundation
 import WatchConnectivity
 import Combine
+import OSLog
 
 class WatchConnector: NSObject, ObservableObject, WCSessionDelegate {
     static let shared = WatchConnector()
@@ -21,7 +22,6 @@ class WatchConnector: NSObject, ObservableObject, WCSessionDelegate {
         DispatchQueue.main.async {
             if let dist = context["dist"] as? Double {
                 self.lastReceivedZombieDistance = dist
-                print("Watch empfing Distanz: \(dist)")
             }
         }
     }

@@ -6,6 +6,7 @@ import extendedSyntax
 import OSLog
 import SwiftUI
 import GameCenterKit
+import ActivityKit
 
 enum GameSignal: Codable {
     case playerLocation(id: String, lat: Double, lon: Double)
@@ -71,6 +72,79 @@ class BluetoothManager: NSObject, ObservableObject {
     @Published var localItems: [LocalItem] = []
     
     private var lastBroadcastedLocation: CLLocationCoordinate2D?
+    var currentActivity: Activity<SombiesWidgetsAttributes>? = nil
+
+    func startLiveActivity() {
+        guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
+        
+        let attributes = SombiesWidgetsAttributes(gameName: "Zombie Jagd")
+        
+        let initialState = SombiesWidgetsAttributes.ContentState(
+            ping: Int(lastPing),
+            health: self.health
+        )
+        
+        do {
+            let activity = try Activity.request(
+                attributes: attributes,
+                content: .init(state: initialState, staleDate: nil),
+                pushType: nil
+            )
+            
+            self.currentActivity = activity
+            print("Live-Aktivität erfolgreich gestartet ID: \(activity.id)")
+        } catch {
+            print("Fehler beim Starten der Live-Aktivität: \(error.localizedDescription)")
+        }
+    }
+
+    func updateLiveActivity(statusMessage: String, showAlert: Bool = false) {
+        guard let activity = currentActivity else { return }
+        
+        var alertConfig: AlertConfiguration? = nil
+        
+        if showAlert {
+            alertConfig = AlertConfiguration(
+                title: "Zombie-Angriff!",
+                body: "Ein Zombie hat dich erwischt! Lauf schneller!",
+                sound: .default
+            )
+        }
+        
+        let contentState = SombiesWidgetsAttributes.ContentState(
+            ping: Int(self.lastPing),
+            health: self.health
+        )
+        
+        let staleDate = Date.now + 15
+        
+        Task { @MainActor in
+            await activity.update(
+                ActivityContent<SombiesWidgetsAttributes.ContentState>(
+                    state: contentState,
+                    staleDate: staleDate,
+                    relevanceScore: showAlert ? 100 : 50
+                ),
+                alertConfiguration: alertConfig
+            )
+        }
+    }
+    func endLiveActivity(finalMessage: String) {
+        guard let activity = currentActivity else { return }
+        
+        let finalContent = SombiesWidgetsAttributes.ContentState(
+            ping: 0,
+            health: self.health
+        )
+        
+        Task { @MainActor in
+            await activity.end(
+                ActivityContent(state: finalContent, staleDate: nil),
+                dismissalPolicy: .immediate
+            )
+            self.currentActivity = nil
+        }
+    }
     
     override init() {
         let initialName = UserDefaults.standard.string(forKey: "userName") ?? UIDevice.current.name
@@ -205,7 +279,6 @@ class BluetoothManager: NSObject, ObservableObject {
             let d = myLoc.distance(from: zLoc)
             
             if d < minDistance { minDistance = d }
-            
             if d < 5 {
                 health = Math.clamp(health - 5, min: 0, max: 100)
                 if health <= 0 {
@@ -222,7 +295,33 @@ class BluetoothManager: NSObject, ObservableObject {
                 }
             }
         }
-        closestZombieDistance = minDistance == .infinity ? nil : minDistance
+    }
+    
+    func calculateClosestZombieDistance(from myLocation: CLLocationCoordinate2D) -> Double? {
+        guard gameState == .active, !syncedZombies.isEmpty else {
+            self.closestZombieDistance = nil
+            return nil
+        }
+        
+        let myLoc = CLLocation(latitude: myLocation.latitude, longitude: myLocation.longitude)
+        var shortestDistance: Double = .infinity
+        
+        for (_, zombieCoord) in syncedZombies {
+            let zLoc = CLLocation(latitude: zombieCoord.latitude, longitude: zombieCoord.longitude)
+            let distance = myLoc.distance(from: zLoc)
+            
+            if distance < shortestDistance {
+                shortestDistance = distance
+            }
+        }
+        
+        if shortestDistance == .infinity {
+            self.closestZombieDistance = nil
+            return nil
+        }
+        
+        self.closestZombieDistance = shortestDistance
+        return shortestDistance
     }
     
     func updateZombieAI(hostLocation: CLLocationCoordinate2D, multiplier: Double) {
@@ -428,3 +527,4 @@ struct SeededGenerator: RandomNumberGenerator {
         return state
     }
 }
+

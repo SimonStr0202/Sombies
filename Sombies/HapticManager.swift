@@ -5,6 +5,7 @@ class HapticManager {
     static let shared = HapticManager()
     
     private var hapticEngine: CHHapticEngine?
+    private var zombieRadarPlayer: CHHapticAdvancedPatternPlayer?
     
     private init() {
         createEngine()

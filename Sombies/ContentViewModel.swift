@@ -217,8 +217,9 @@ class ContentViewModel: ObservableObject {
             sharedDefaults.set(xpForNextAccountLevel, forKey: "widgetNextLevel")
             sharedDefaults.set(accountLevel, forKey: "widgetLevel")
             sharedDefaults.set(accountLevelProgress, forKey: "widgetAccountProgress")
+            sharedDefaults.set(medkits, forKey: "widgetMedkits")
+            sharedDefaults.set(navigators, forKey: "widgetNavigators")
         }
-        
         WidgetCenter.shared.reloadAllTimelines()
     }
     

@@ -90,7 +90,9 @@ struct InGameHUD: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
-                    .glassEffect(.regular.interactive(), in: ContainerRelativeShape())
+                    .transition(.blurReplace)
+                    .background(.gray.opacity(0.1))
+                    .clipShape(ContainerRelativeShape())
                     .contextMenu(menuItems: {
                         Button("Bearbeiten", systemImage: "pencil") {
                             editOverview.toggle()
@@ -141,8 +143,11 @@ struct InGameHUD: View {
                         }
                     }
                     .padding(.vertical, 12)
-                    .glassEffect(.regular.interactive(), in: ContainerRelativeShape())
+                    .transition(.blurReplace)
+                    .background(.gray.opacity(0.1))
+                    .clipShape(ContainerRelativeShape())
                     .padding()
+                    .transition(.blurReplace)
                 } else if vm.inGameTab == 2 {
                     VStack {
                         Toggle("Ping-Nummer zeigen", isOn: $vm.precisePingNumbers)
@@ -158,10 +163,14 @@ struct InGameHUD: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
-                    .glassEffect(.regular.interactive(), in: ContainerRelativeShape())
+                    .transition(.blurReplace)
+                    .background(.gray.opacity(0.1))
+                    .clipShape(ContainerRelativeShape())
                     .padding()
+                    .transition(.blurReplace)
                 }
             }
+            .animation(.default, value: vm.inGameTab)
             Picker("Tab", selection: $vm.inGameTab, content: {
                 Label("Übersicht", systemImage: "list.bullet.clipboard")
                     .padding(.vertical)

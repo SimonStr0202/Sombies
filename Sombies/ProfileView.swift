@@ -234,142 +234,171 @@ struct Shop: View {
     @State private var inputArticleNumber: String = ""
     @State private var inputAmount: String = "1"
     
+    @State var inventoryShown: Bool = false
+    
     private let shopSpaceID = "ShopSpace"
     
     private let gridColumns: [GridItem] = [
-        GridItem(.flexible(minimum: .zero, maximum: .infinity)), GridItem(.flexible(minimum: .zero, maximum: .infinity)), GridItem(.flexible(minimum: .zero, maximum: .infinity))
+        GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())
     ]
     
     var body: some View {
         VStack {
-            Spacer()
-            
-            VStack {
-                LazyVGrid(columns: gridColumns) {
-                    ForEach(slots, id: \.id) { slot in
-                        let isSelected = selectedIndex == slot.index
-                        
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color(.systemFill))
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
-                            .aspectRatio(4/5, contentMode: .fit)
-                            .clipped()
-                            .glassEffect(.regular.tint(.orange.opacity(0.3)))
-                            .overlay {
-                                VStack {
-                                    Image(systemName: slot.systemIcon)
-                                        .imageScale(.large)
-                                        .symbolRenderingMode(.monochrome)
-                                        .font(.largeTitle)
-                                        .foregroundColor(isSelected ? .orange : .primary)
-                                    HStack {
-                                        Image(systemName: "brain.fill")
-                                            .symbolRenderingMode(.monochrome)
-                                        Text("\(slot.price)")
-                                            .font(.system(size: 15, weight: .regular, design: .default))
-                                    }
-                                    Divider()
-                                    Text("\(slot.itemNumber)")
-                                        .font(.system(.title, weight: .bold))
-                                }
-                            }
-                            .onTapGesture {
-                                selectedIndex = slot.index
-                                inputArticleNumber = String(slot.itemNumber)
-                            }
-                    }
-                }
-                .padding()
-                
-                // 2. TEXTFELDER & MÜNZSCHLITZ
-                HStack {
-                    HStack {
-                        TextField("Nr.", text: $inputArticleNumber)
-                            .keyboardType(.numberPad)
-                            .frame(width: 50)
-                            .multilineTextAlignment(.center)
-                            .onChange(of: inputArticleNumber) { _, newValue in
-                                if let matchedSlot = slots.first(where: { String($0.itemNumber) == newValue }) {
-                                    selectedIndex = matchedSlot.index
-                                }
-                            }
-                        
-                        Divider()
-                            .fixedSize(horizontal: false, vertical: true)
-                        
-                        TextField("Anzahl", text: $inputAmount)
-                            .keyboardType(.numberPad)
-                            .frame(width: 50)
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding()
-                    .glassEffect(.regular.interactive(), in: .capsule(style: .continuous))
+            if !inventoryShown {
+                VStack {
                     
                     Spacer()
                     
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .frame(width: 100, height: 20)
-                        .clipped()
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .stroke(isHoveringOverSlot ? Color.orange : Color.clear, lineWidth: 1)
-                            
-                            Text(isHoveringOverSlot ? "LOSLASSEN" : "Münze einwerfen".uppercased())
-                                .foregroundStyle(isHoveringOverSlot ? .orange : .gray)
-                                .font(.system(size: 10, weight: .regular, design: .monospaced))
+                    VStack {
+                        LazyVGrid(columns: gridColumns) {
+                            ForEach(slots, id: \.id) { slot in
+                                let isSelected = selectedIndex == slot.index
+                                
+                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                    .fill(Color(.systemFill))
+                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+                                    .aspectRatio(6/5, contentMode: .fit)
+                                    .clipped()
+                                    .glassEffect(.regular.tint(.orange.opacity(0.3)), in: RoundedRectangle(cornerRadius: 10))
+                                    .overlay {
+                                        VStack {
+                                            HStack {
+                                                Image(systemName: slot.systemIcon)
+                                                    .imageScale(.large)
+                                                    .symbolRenderingMode(.monochrome)
+                                                    .font(.largeTitle)
+                                                    .foregroundColor(isSelected ? .orange : .primary)
+                                                HStack {
+                                                    Image(systemName: "brain.fill")
+                                                        .symbolRenderingMode(.monochrome)
+                                                    Text("\(slot.price)")
+                                                        .font(.system(size: 15, weight: .regular, design: .default))
+                                                }
+                                            }
+                                            Divider()
+                                            Text("\(slot.itemNumber)")
+                                                .font(.system(.title, weight: .bold))
+                                        }
+                                    }
+                                    .onTapGesture {
+                                        selectedIndex = slot.index
+                                        inputArticleNumber = String(slot.itemNumber)
+                                    }
+                            }
                         }
-                }
-                .padding(.horizontal)
-                 
-            }
-            .coordinateSpace(name: shopSpaceID) // String-basiert umgesetzt
-            
-            Spacer()
-            
-            // 3. INTERAKTIVE MÜNZE
-            HStack {
-                ZStack {
-                    Image(systemName: "brain.fill")
-                        .symbolRenderingMode(.monochrome)
-                        .font(.title3)
                         .padding()
-                        .background {
-                            LinearGradient(gradient: Gradient(colors: [.orange, .yellow]), startPoint: .top, endPoint: .bottom)
-                                .clipShape(Circle())
+                        
+                        HStack {
+                            HStack {
+                                TextField("Nr.", text: $inputArticleNumber)
+                                    .keyboardType(.numberPad)
+                                    .frame(width: 50)
+                                    .multilineTextAlignment(.center)
+                                    .onChange(of: inputArticleNumber) { _, newValue in
+                                        if let matchedSlot = slots.first(where: { String($0.itemNumber) == newValue }) {
+                                            selectedIndex = matchedSlot.index
+                                        }
+                                    }
+                                
+                                Divider()
+                                    .fixedSize(horizontal: false, vertical: true)
+                                
+                                TextField("Anzahl", text: $inputAmount)
+                                    .keyboardType(.numberPad)
+                                    .frame(width: 50)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .padding()
+                            .glassEffect(.regular.interactive(), in: .capsule(style: .continuous))
+                            
+                            Spacer()
+                            
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .frame(width: 100, height: 20)
+                                .clipped()
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .stroke(isHoveringOverSlot ? Color.orange : Color.clear, lineWidth: 1)
+                                    
+                                    Text(isHoveringOverSlot ? "LOSLASSEN" : "Münze einwerfen".uppercased())
+                                        .foregroundStyle(isHoveringOverSlot ? .orange : .gray)
+                                        .font(.system(size: 10, weight: .regular, design: .monospaced))
+                                }
                         }
-                        .offset(coinOffset)
-                        .gesture(
-                            DragGesture(coordinateSpace: .named(shopSpaceID))
-                                .onChanged { gesture in
-                                    coinOffset = gesture.translation
-                                    isHoveringOverSlot = gesture.location.x > 180 && gesture.location.y < -10
+                        .padding(.horizontal)
+                        
+                    }
+                    .coordinateSpace(name: shopSpaceID)
+                    
+                    Spacer()
+                    
+                    HStack {
+                        ZStack {
+                            Image(systemName: "brain.fill")
+                                .symbolRenderingMode(.monochrome)
+                                .font(.title3)
+                                .padding()
+                                .background {
+                                    LinearGradient(gradient: Gradient(colors: [.orange, .yellow]), startPoint: .top, endPoint: .bottom)
+                                        .clipShape(Circle())
                                 }
-                                .onEnded { _ in
-                                    if isHoveringOverSlot {
-                                        executePurchase()
-                                    }
-                                    withAnimation(.spring()) {
-                                        coinOffset = .zero
-                                        isHoveringOverSlot = false
-                                    }
-                                }
-                        )
+                                .offset(coinOffset)
+                                .gesture(
+                                    DragGesture(coordinateSpace: .named(shopSpaceID))
+                                        .onChanged { gesture in
+                                            coinOffset = gesture.translation
+                                            isHoveringOverSlot = gesture.location.x > 180 && gesture.location.y < -10
+                                        }
+                                        .onEnded { _ in
+                                            if isHoveringOverSlot {
+                                                executePurchase()
+                                            }
+                                            withAnimation(.bouncy) {
+                                                coinOffset = .zero
+                                                isHoveringOverSlot = false
+                                            }
+                                        }
+                                )
+                        }
+                        Text("x\(Int(vm.coins))")
+                            .font(.system(.title2, design: .rounded, weight: .bold))
+                    }
                 }
-                Text("x\(Int(vm.coins))")
-                    .font(.system(.title2, design: .rounded, weight: .bold))
+                .transition(.move(edge: .top).combined(with: .blurReplace))
             }
-            
-            Button(action: {}, label: {
+            Button(action: {
+                withAnimation {
+                    inventoryShown.toggle()
+                }
+            }, label: {
                 HStack {
                     Image(systemName: "chevron.up")
                         .symbolRenderingMode(.monochrome)
+                        .rotationEffect(Angle(degrees: inventoryShown ? 180: 0))
                     Text("Inventar")
                 }
             })
-            
             .buttonStyle(.automatic)
             .controlSize(.regular)
-             
+            if inventoryShown {
+                //VStack {
+                    List {
+                        LabeledContent(content: {
+                            Text("x\(vm.medkits)")
+                        }, label: {
+                            Label("Erste Hilfe Kasten", systemImage: "cross.case.fill")
+                        })
+                    }
+                List {
+                    LabeledContent(content: {
+                        Text("x\(vm.navigators)")
+                    }, label: {
+                        Label("Navigator", systemImage: "point.topleft.filled.down.to.point.bottomright.curvepath")
+                    })
+                }
+                //}
+                .transition(.move(edge: .bottom).combined(with: .blurReplace))
+            }
         }
         .onAppear {
             if slots.isEmpty {
@@ -873,7 +902,6 @@ struct DisplayOverviewSettings: View {
                     Text("Gerätetemperatur anzeigen")
                     Text("Aktuell: \(vm.thermalStateDescription.text)")
                 })
-                Toggle("Temperatur anzeigen", isOn: $vm.showThermal)
             }
             .navigationTitle("Übersicht anpassen")
         }
