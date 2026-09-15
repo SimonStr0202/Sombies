@@ -29,7 +29,7 @@ struct ProfileView: View {
             VStack {
                 ScrollView(.vertical) {
                     ZStack {
-                        PhysicsBallView(multiplier: Int(Math.clamp(vm.coins, min: 0, max: 100)), content: {
+                        PhysicsBallView(multiplier: Int(Math.clamp(vm.coins, min: 0, max: 70)), content: {
                             ZStack {
                                 Circle()
                                     .foregroundStyle(LinearGradient(colors: [.orange, .yellow], startPoint: .top, endPoint: .bottom))
@@ -39,7 +39,8 @@ struct ProfileView: View {
                             }
                         })
                         .id(vm.coins)
-                        .glassEffect(.clear, in: RoundedRectangle(cornerRadius: 20))
+                        .background(RoundedRectangle(cornerRadius: 20).fill(.gray.opacity(0.2)))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
                         VStack {
                             Spacer()
                             HStack {
@@ -388,14 +389,12 @@ struct Shop: View {
                         }, label: {
                             Label("Erste Hilfe Kasten", systemImage: "cross.case.fill")
                         })
+                        LabeledContent(content: {
+                            Text("x\(vm.navigators)")
+                        }, label: {
+                            Label("Navigator", systemImage: "point.topleft.filled.down.to.point.bottomright.curvepath")
+                        })
                     }
-                List {
-                    LabeledContent(content: {
-                        Text("x\(vm.navigators)")
-                    }, label: {
-                        Label("Navigator", systemImage: "point.topleft.filled.down.to.point.bottomright.curvepath")
-                    })
-                }
                 //}
                 .transition(.move(edge: .bottom).combined(with: .blurReplace))
             }

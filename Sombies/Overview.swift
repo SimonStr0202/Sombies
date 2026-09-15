@@ -40,7 +40,7 @@ struct OverviewDisplay: View {
                 VStack {
                     OverviewCard(vm: vm, icon: "stopwatch", text: "\(Int(vm.gameStopwatch))s", color: .blue, trigger: animCount == 4)
                     OverviewCard(vm: vm, icon: "heart.fill", text: "\(Int(BluetoothManager.shared.health))/100", color: .red, trigger: animCount == 5)
-                    OverviewCard(vm: vm, icon: "brain.fill", text: "+\(Int(vm.gameStopwatch < 120 ? 0 : floor(vm.gameStopwatch / 10))) Münzen", color: .yellow, trigger: animCount == 6)
+                    OverviewCard(vm: vm, icon: "brain.fill", text: "+\(Int(vm.gameStopwatch < 200 ? 0 : floor(vm.gameStopwatch / 10))) Münzen", color: .yellow, trigger: animCount == 6)
                     OverviewCard(vm: vm, icon: "sparkles", text: "+\(Int(vm.gameStopwatch < 200 ? 0 : floor(vm.gameStopwatch / 50))) XP", color: .green, trigger: animCount == 7)
                 }
                 .transition(.move(edge: .bottom).combined(with: .blurReplace))
@@ -65,7 +65,7 @@ struct OverviewDisplay: View {
                     })
                     vm.hostPlayersAmount = 1
                     vm.overviewShown = false
-                    vm.coins += Double(Int(vm.gameStopwatch < 120 ? 0 : floor(vm.gameStopwatch / 10)))
+                    vm.coins += Double(Int(vm.gameStopwatch < 200 ? 0 : floor(vm.gameStopwatch / 10)))
                     let XPEarned = Double(vm.gameStopwatch < 200 ? 0 : floor(vm.gameStopwatch / 50))
                     vm.addXP(baseXP: XPEarned, questXP: XPEarned)
                     vm.saveWidgetData()
