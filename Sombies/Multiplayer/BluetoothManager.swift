@@ -571,7 +571,9 @@ private extension BluetoothManager {
             case .playerLocation(_, let lat, let lon):
                 let id = GamePeer(id: packet.peerID, displayName: packet.displayName)
                 self.peerLocations[id] = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                if self.isHosting { self.sendSignal(packet.signal, reliable: false) }
+                if self.isHosting, let characteristic = self.notifyCharacteristic {
+                    _ = self.peripheralManager.updateValue(data, for: characteristic, onSubscribedCentrals: Array(self.subscribedCentrals.values))
+                }
             case .zombieSpawned(let id, let lat, let lon):
                 self.syncedZombies[id] = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             case .zombieKilled(let id):
