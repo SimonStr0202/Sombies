@@ -572,8 +572,11 @@ private extension BluetoothManager {
         guard let packet = try? JSONDecoder().decode(Packet.self, from: data) else { return }
         if let central {
             peerNames[central.identifier] = packet.displayName
-            if !connectedPeers.contains(where: { $0.id == central.identifier }) {
-                connectedPeers.append(GamePeer(id: central.identifier, displayName: packet.displayName))
+            let peer = GamePeer(id: central.identifier, displayName: packet.displayName)
+            if let index = connectedPeers.firstIndex(where: { $0.id == central.identifier }) {
+                connectedPeers[index] = peer
+            } else {
+                connectedPeers.append(peer)
             }
             fullyConnected = true
         }
