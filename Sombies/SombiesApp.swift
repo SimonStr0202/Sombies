@@ -1,6 +1,6 @@
 import SwiftUI
 import CoreLocation
-import Toasts
+import SkimUI
 
 @main
 struct SombiesApp: App {
@@ -8,7 +8,7 @@ struct SombiesApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(vm: vm)
-                .installToast(position: .top)
+                .installToasts(position: .top)
         }
     }
 }

@@ -181,6 +181,38 @@
         }
       }
     },
+    "Abmelden" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abmelden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log out"
+          }
+        }
+      }
+    },
+    "Account-Manager" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account-Manager"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account manager"
+          }
+        }
+      }
+    },
     "Addresse" : {
       "localizations" : {
         "de" : {
@@ -193,23 +225,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Address"
-          }
-        }
-      }
-    },
-    "Aktiv" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktiv"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Active"
           }
         }
       }
@@ -290,6 +305,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Log to Health at the end of the training?"
+          }
+        }
+      }
+    },
+    "Anmelden" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anmelden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log in"
           }
         }
       }
@@ -454,6 +485,38 @@
         }
       }
     },
+    "Backup erstellen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup erstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create backup"
+          }
+        }
+      }
+    },
+    "Backup von %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup von %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup from %@"
+          }
+        }
+      }
+    },
     "Bearbeiten" : {
       "localizations" : {
         "de" : {
@@ -482,6 +545,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quit"
+          }
+        }
+      }
+    },
+    "Bei Sombies anmelden" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei Sombies anmelden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log in to Sombies"
+          }
+        }
+      }
+    },
+    "Bei Sombies registrieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei Sombies registrieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign up for Sombies"
           }
         }
       }
@@ -679,6 +774,7 @@
       }
     },
     "Du verlässt das aktuelle Spiel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -706,6 +802,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You will be able to earn more rewards per level until the end of this year. Remaining time until the new year arrives: %@"
+          }
+        }
+      }
+    },
+    "E-Mail Adresse" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-Mail Adresse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-Mail Adress"
           }
         }
       }
@@ -775,7 +887,20 @@
       }
     },
     "Ein Zombie hat dich erwischt! Lauf schneller!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Zombie hat dich erwischt! Lauf schneller!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Zombie got you! Run faster!"
+          }
+        }
+      }
     },
     "Einstellungen" : {
       "localizations" : {
@@ -853,6 +978,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "First Aid Kit"
+          }
+        }
+      }
+    },
+    "Erste Hilfe Kästen: %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erste Hilfe Kästen: %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First Aid Kits: %lld"
           }
         }
       }
@@ -1021,6 +1162,22 @@
         }
       }
     },
+    "Hast du schon einen Account?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hast du schon einen Account?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do you already have an account?"
+          }
+        }
+      }
+    },
     "Heile 50 Leben" : {
       "localizations" : {
         "de" : {
@@ -1065,6 +1222,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quit Hosting?"
+          }
+        }
+      }
+    },
+    "ID" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID"
+          }
+        }
+      }
+    },
+    "ID und Passwort eingeben" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID und Passwort eingeben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter ID and password"
+          }
+        }
+      }
+    },
+    "Internet" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Internet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Internet"
           }
         }
       }
@@ -1213,6 +1418,70 @@
         }
       }
     },
+    "Letztes Backup" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letztes Backup"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last backup"
+          }
+        }
+      }
+    },
+    "Letztes Backup anzeigen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letztes Backup anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show last backup"
+          }
+        }
+      }
+    },
+    "Letztes Backup einsehen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letztes Backup einsehen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View last backup"
+          }
+        }
+      }
+    },
+    "Letztes Backup wird geladen..." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letztes Backup wird geladen..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading last backup..."
+          }
+        }
+      }
+    },
     "Level %lld (%lld/10 XP)" : {
       "localizations" : {
         "de" : {
@@ -1225,6 +1494,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Level %1$lld (%2$lld/10 XP)"
+          }
+        }
+      }
+    },
+    "Level: %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Level: %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Level: %lld"
           }
         }
       }
@@ -1257,6 +1542,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "License not found"
+          }
+        }
+      }
+    },
+    "Lobby verlassen?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lobby verlassen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave the lobby?"
+          }
+        }
+      }
+    },
+    "Lokal" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lokal"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local"
           }
         }
       }
@@ -1341,6 +1658,22 @@
         }
       }
     },
+    "Möchtest du die Lobby wirklich verlassen?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Möchtest du die Lobby wirklich verlassen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to leave the lobby?"
+          }
+        }
+      }
+    },
     "Modus" : {
       "localizations" : {
         "de" : {
@@ -1353,6 +1686,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mode"
+          }
+        }
+      }
+    },
+    "Münzen: %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Münzen: %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coins: %lld"
           }
         }
       }
@@ -1401,6 +1750,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Navigator"
+          }
+        }
+      }
+    },
+    "Navigatoren: %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigatoren: %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigators: %lld"
+          }
+        }
+      }
+    },
+    "Netzwerk" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Netzwerk"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network"
+          }
+        }
+      }
+    },
+    "Noch kein Account?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch kein Account?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You need an account?"
           }
         }
       }
@@ -1481,6 +1878,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passcode or Biometric"
+          }
+        }
+      }
+    },
+    "Passwort" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passwort"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
           }
         }
       }
@@ -1582,6 +1995,54 @@
         }
       }
     },
+    "Raum-Einstellungen (Supabase)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raum-Einstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Room settings"
+          }
+        }
+      }
+    },
+    "Raum-ID" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raum-ID"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Room ID"
+          }
+        }
+      }
+    },
+    "Registrieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register"
+          }
+        }
+      }
+    },
     "Sammeln" : {
       "localizations" : {
         "de" : {
@@ -1663,6 +2124,7 @@
       }
     },
     "Sichtbar werden" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1674,6 +2136,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Get visible"
+          }
+        }
+      }
+    },
+    "Sichtbar werden / Hosten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sichtbar werden / Hosten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Become visible / Host"
           }
         }
       }
@@ -1794,6 +2272,7 @@
       }
     },
     "Suche beenden?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1996,6 +2475,7 @@
       }
     },
     "Verfügbare Spieler" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2007,6 +2487,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Available Players"
+          }
+        }
+      }
+    },
+    "Verfügbare Spieler (Lokal)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verfügbare Spieler"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Available Players"
+          }
+        }
+      }
+    },
+    "Verlassen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verlassen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave"
           }
         }
       }
@@ -2093,7 +2605,20 @@
       }
     },
     "Zombie-Angriff!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zombie-Angriff!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zombie Attack!"
+          }
+        }
+      }
     },
     "Zu Health hinzufügen" : {
       "localizations" : {

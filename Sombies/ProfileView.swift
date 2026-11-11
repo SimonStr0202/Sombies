@@ -64,7 +64,13 @@ struct ProfileView: View {
                         }
                         .background(.blue)
                         .disabled(vm.newName.isEmpty)
-                        Button(role: .cancel) {}
+                        Button(role: .cancel) {
+                            vm.nameAlert = false
+                        }
+                        Button("Account-Manager") {
+                            vm.nameAlert = false
+                            vm.accountManagerShown = true
+                        }
                     }, message: { Text("Du hannst hier deinen Namen ändern") })
                     NavigationLink(destination: {
                         Shop(vm: vm, shopManager: shopManager)
@@ -202,6 +208,9 @@ struct ProfileView: View {
             .navigationTitle("Profil")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .sheet(isPresented: $vm.accountManagerShown, content: {
+            AccountManagerView(vm: vm)
+        })
     }
     func modeColor() -> Color {
         if colorScheme == .dark {

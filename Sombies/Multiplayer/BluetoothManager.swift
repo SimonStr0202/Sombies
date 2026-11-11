@@ -8,6 +8,10 @@ import SwiftUI
 import GameCenterKit
 import ActivityKit
 
+struct GameSignalContainer: Codable {
+    let signal: GameSignal
+}
+
 enum GameSignal: Codable {
     case playerLocation(id: String, lat: Double, lon: Double)
     case zombieSpawned(id: UUID, lat: Double, lon: Double)

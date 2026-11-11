@@ -7,6 +7,7 @@ import os
 import GameKit
 import LocalAuthentication
 import WidgetKit
+import Supabase
 
 @MainActor
 class ContentViewModel: ObservableObject {
@@ -24,14 +25,20 @@ class ContentViewModel: ObservableObject {
     convenience init() {
         self.init(btManager: BluetoothManager.shared, locManager: LocationManager.shared)
     }
+    
     @Published var context = LAContext()
     @Published var mapPos = MapCameraPosition.userLocation(fallback: .automatic)
     @Published var goalMapPos = MapCameraPosition.userLocation(fallback: .automatic)
     @Published var hostingView = false
     @Published var hostPlayersAmount = 1
     @Published var showCancelHostAlert = false
+    @Published var showCancelJoinAlert = false
     @AppStorage("userName") var userName = UIDevice.current.name
     @Namespace var presentationCoordinator
+    
+    @Published var session = SupabaseClient(
+        supabaseURL: URL(string: "https://hdqubxxsjkucpyxbcjgv.supabase.co")!,
+        supabaseKey: "sb_publishable_zGWwVCMB5fhOl5pk7fZFNw_KkaXutkX")
     
     @Published var warningType = 0
     @Published var warningShown = false
@@ -85,6 +92,7 @@ class ContentViewModel: ObservableObject {
     
     @Published var profileShown = false
     @Published var nameAlert = false
+    @Published var accountManagerShown = false
     @Published var newName = ""
     @Published var runHistoryShown = false
     
@@ -136,7 +144,7 @@ class ContentViewModel: ObservableObject {
     
     var distanceToTarget: String? {
         guard let myLoc = LocationManager.shared.lastLocation,
-              let targetCoord = btManager.targetLocation else { return nil }
+              let targetCoord = GameSessionManager.shared.targetLocation else { return nil }
         
         let targetLoc = CLLocation(latitude: targetCoord.latitude, longitude: targetCoord.longitude)
         let distance = myLoc.distance(from: targetLoc)
@@ -277,11 +285,11 @@ class ContentViewModel: ObservableObject {
         }
     }
     
-    func handleAppTermination(btManager: BluetoothManager) {
-        if btManager.isHosting {
-            btManager.terminateParty()
+    func handleAppTermination() {
+        if GameSessionManager.shared.isHosting {
+            GameSessionManager.shared.terminateParty()
         } else {
-            btManager.leaveParty()
+            GameSessionManager.shared.leaveParty()
         }
     }
     func formatDuration(start: Date, end: Date) -> String {

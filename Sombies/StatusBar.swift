@@ -6,7 +6,7 @@ import Combine
 struct StatusBar: View {
     @Namespace var presentationCoordinator
     @ObservedObject var vm: ContentViewModel
-    @ObservedObject var btManager: BluetoothManager
+    @ObservedObject var sessionManager: GameSessionManager = .shared
     @Environment(\.colorScheme) var colorScheme
     @State private var containerSize: CGSize = .zero
     var body: some View {
@@ -33,7 +33,7 @@ struct StatusBar: View {
                             vm.antiCheatLoad += 0.04
                         }
                         if vm.antiCheatLoad > 1 {
-                            btManager.triggerGameOver()
+                            sessionManager.triggerGameOver()
                             vm.antiCheatLoad = 0
                         }
                     } else {
@@ -54,9 +54,9 @@ struct StatusBar: View {
                     .glassEffect(.regular.interactive(), in: Capsule())
                     .glassEffectID("antiCheatLoad", in: presentationCoordinator)
                 }
-                if btManager.gameState == .paused {
+                if sessionManager.gameState == .paused {
                     Button("Fortsetzen", systemImage: "play.fill") {
-                        btManager.resumeGame()
+                        sessionManager.resumeGame()
                     }
                     .labelStyle(.iconOnly)
                     .frame(width: containerSize.width, height: containerSize.height)
@@ -72,12 +72,12 @@ struct StatusBar: View {
                     .glassEffect(.regular.interactive(), in: Capsule())
                     .glassEffectID("resumeButton", in: presentationCoordinator)
                     .onTapGesture {
-                        btManager.resumeGame()
+                        sessionManager.resumeGame()
                     }
                 }
                 Spacer()
             }
-            .animation(.linear, value: btManager.gameState)
+            .animation(.linear, value: sessionManager.gameState)
         }
     }
     func sizeOfGauge() -> CGSize {
@@ -98,7 +98,7 @@ struct StatusBar: View {
     ZStack {
         Color.red
             .ignoresSafeArea()
-        StatusBar(vm: ContentViewModel(), btManager: BluetoothManager())
+        StatusBar(vm: ContentViewModel(), sessionManager: GameSessionManager.shared)
     }
 }
 

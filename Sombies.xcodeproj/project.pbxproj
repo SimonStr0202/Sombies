@@ -10,6 +10,8 @@
 		F40EC1492FE862B0002456A1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F40EC1482FE862B0002456A1 /* README.md */; };
 		F40EC14A2FE862B0002456A1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F40EC1482FE862B0002456A1 /* README.md */; };
 		F417BC662FBCE45A00DAAFC6 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = F417BC652FBCE45A00DAAFC6 /* Shimmer */; };
+		F41CF85930A3AD0900B3C782 /* SkimUI in Frameworks */ = {isa = PBXBuildFile; productRef = F41CF85830A3AD0900B3C782 /* SkimUI */; };
+		F44248D730A259FC001CD770 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = F44248D630A259FC001CD770 /* SwiftyJSON */; };
 		F457BB0F2F61F6930063A1E7 /* SlideButton in Frameworks */ = {isa = PBXBuildFile; productRef = F457BB0E2F61F6930063A1E7 /* SlideButton */; };
 		F47062302FB259A60025A2E3 /* GameCenterKit in Frameworks */ = {isa = PBXBuildFile; productRef = F470622F2FB259A60025A2E3 /* GameCenterKit */; };
 		F490979D2FBB9AE3004B07DF /* Toasts in Frameworks */ = {isa = PBXBuildFile; productRef = F490979C2FBB9AE3004B07DF /* Toasts */; };
@@ -23,6 +25,12 @@
 		F49BCD782F68868F00BA1B36 /* SombiesWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F49BCD642F68868D00BA1B36 /* SombiesWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F49BCD872F688E0300BA1B36 /* SombiesWidgetsAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD862F688E0300BA1B36 /* SombiesWidgetsAttributes.swift */; };
 		F49BCD882F688E0300BA1B36 /* SombiesWidgetsAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BCD862F688E0300BA1B36 /* SombiesWidgetsAttributes.swift */; };
+		F4ADF981305997D700850AB1 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = F4ADF980305997D700850AB1 /* Auth */; };
+		F4ADF983305997D700850AB1 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = F4ADF982305997D700850AB1 /* Functions */; };
+		F4ADF985305997D700850AB1 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = F4ADF984305997D700850AB1 /* PostgREST */; };
+		F4ADF987305997D700850AB1 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = F4ADF986305997D700850AB1 /* Realtime */; };
+		F4ADF989305997D700850AB1 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = F4ADF988305997D700850AB1 /* Storage */; };
+		F4ADF98B305997D700850AB1 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = F4ADF98A305997D700850AB1 /* Supabase */; };
 		F4B946482F60A1250062C584 /* extendedSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = F4B946472F60A1250062C584 /* extendedSyntax */; };
 /* End PBXBuildFile section */
 
@@ -135,10 +143,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F41CF85930A3AD0900B3C782 /* SkimUI in Frameworks */,
+				F4ADF98B305997D700850AB1 /* Supabase in Frameworks */,
+				F4ADF987305997D700850AB1 /* Realtime in Frameworks */,
 				F490979D2FBB9AE3004B07DF /* Toasts in Frameworks */,
 				F417BC662FBCE45A00DAAFC6 /* Shimmer in Frameworks */,
+				F4ADF981305997D700850AB1 /* Auth in Frameworks */,
 				F457BB0F2F61F6930063A1E7 /* SlideButton in Frameworks */,
+				F44248D730A259FC001CD770 /* SwiftyJSON in Frameworks */,
+				F4ADF985305997D700850AB1 /* PostgREST in Frameworks */,
+				F4ADF983305997D700850AB1 /* Functions in Frameworks */,
 				F47062302FB259A60025A2E3 /* GameCenterKit in Frameworks */,
+				F4ADF989305997D700850AB1 /* Storage in Frameworks */,
 				F4B946482F60A1250062C584 /* extendedSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,6 +250,14 @@
 				F470622F2FB259A60025A2E3 /* GameCenterKit */,
 				F490979C2FBB9AE3004B07DF /* Toasts */,
 				F417BC652FBCE45A00DAAFC6 /* Shimmer */,
+				F4ADF980305997D700850AB1 /* Auth */,
+				F4ADF982305997D700850AB1 /* Functions */,
+				F4ADF984305997D700850AB1 /* PostgREST */,
+				F4ADF986305997D700850AB1 /* Realtime */,
+				F4ADF988305997D700850AB1 /* Storage */,
+				F4ADF98A305997D700850AB1 /* Supabase */,
+				F44248D630A259FC001CD770 /* SwiftyJSON */,
+				F41CF85830A3AD0900B3C782 /* SkimUI */,
 			);
 			productName = Sombies;
 			productReference = F44730752F5C9FCC0082B17B /* Sombies.app */;
@@ -311,6 +335,7 @@
 				en,
 				Base,
 				de,
+				fr,
 			);
 			mainGroup = F447306C2F5C9FCC0082B17B;
 			minimizedProjectReferenceProxies = 1;
@@ -320,6 +345,9 @@
 				F470622E2FB259A60025A2E3 /* XCRemoteSwiftPackageReference "GameCenterKit" */,
 				F490979B2FBB9AE3004B07DF /* XCRemoteSwiftPackageReference "swiftui-toasts" */,
 				F417BC642FBCE45A00DAAFC6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				F4ADF97F305997D700850AB1 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				F44248D530A259FC001CD770 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				F41CF85730A3AD0900B3C782 /* XCRemoteSwiftPackageReference "skim-ui-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F44730762F5C9FCC0082B17B /* Products */;
@@ -821,6 +849,22 @@
 				minimumVersion = 1.5.1;
 			};
 		};
+		F41CF85730A3AD0900B3C782 /* XCRemoteSwiftPackageReference "skim-ui-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sunghyun-k/skim-ui-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+		F44248D530A259FC001CD770 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
 		F457BB0D2F61F6930063A1E7 /* XCRemoteSwiftPackageReference "SlideButton" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/no-comment/SlideButton";
@@ -845,6 +889,16 @@
 				minimumVersion = 1.1.2;
 			};
 		};
+		F4ADF97F305997D700850AB1 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+			traits = (
+			);
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -852,6 +906,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F417BC642FBCE45A00DAAFC6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
+		};
+		F41CF85830A3AD0900B3C782 /* SkimUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F41CF85730A3AD0900B3C782 /* XCRemoteSwiftPackageReference "skim-ui-ios" */;
+			productName = SkimUI;
+		};
+		F44248D630A259FC001CD770 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F44248D530A259FC001CD770 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 		F457BB0E2F61F6930063A1E7 /* SlideButton */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -867,6 +931,36 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F490979B2FBB9AE3004B07DF /* XCRemoteSwiftPackageReference "swiftui-toasts" */;
 			productName = Toasts;
+		};
+		F4ADF980305997D700850AB1 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4ADF97F305997D700850AB1 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		F4ADF982305997D700850AB1 /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4ADF97F305997D700850AB1 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		F4ADF984305997D700850AB1 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4ADF97F305997D700850AB1 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		F4ADF986305997D700850AB1 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4ADF97F305997D700850AB1 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		F4ADF988305997D700850AB1 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4ADF97F305997D700850AB1 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		F4ADF98A305997D700850AB1 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4ADF97F305997D700850AB1 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
 		};
 		F4B946472F60A1250062C584 /* extendedSyntax */ = {
 			isa = XCSwiftPackageProductDependency;

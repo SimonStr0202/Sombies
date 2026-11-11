@@ -11,7 +11,7 @@ struct MainMap: View {
     @Namespace var mapScope
     @ObservedObject var vm: ContentViewModel
     @StateObject var locManager = LocationManager.shared
-    @ObservedObject var btManager: BluetoothManager
+    @ObservedObject var sessionManager: GameSessionManager = .shared
     
     var deviceIconName: String {
         let device = UIDevice.current.userInterfaceIdiom
@@ -28,10 +28,10 @@ struct MainMap: View {
     }
     var body: some View {
         Map(position: $vm.mapPos, selection: $vm.selectedObj, scope: mapScope, content: {
-            MainMapContents(vm: vm, btManager: btManager)
+            MainMapContents(vm: vm, sessionManager: sessionManager)
         })
-        .animation(.linear(duration: 1), value: btManager.syncedZombies.values.description)
-        .animation(.linear(duration: 1), value: btManager.peerLocations.values.description)
+        .animation(.linear(duration: 1), value: sessionManager.syncedZombies.values.description)
+        .animation(.linear(duration: 1), value: sessionManager.peerLocationsList.description)
         .onAppear {
             locManager.startUpdating()
             Task {
@@ -55,7 +55,7 @@ struct MainMap: View {
             vm.saveWidgetData()
         }
         .onChange(of: vm.selectedObj) {
-            if btManager.gameState == .waiting {
+            if sessionManager.gameState == .waiting {
                 if vm.selectedObj != nil {
                     vm.featureScreen = true
                 } else {
@@ -75,11 +75,11 @@ struct MainMap: View {
         }
         .onChange(of: scenePhase) {
             if scenePhase == .background {
-                if btManager.gameState != .active {
+                if sessionManager.gameState != .active {
                     locManager.stopUpdating()
                 }
             } else if scenePhase == .active {
-                if btManager.gameState != .active {
+                if sessionManager.gameState != .active {
                     locManager.startUpdating()
                 }
             }
@@ -96,7 +96,7 @@ struct MainMap: View {
                     .padding(.leading)
                 Text("\(Int(vm.xpPoints))")
                 Spacer()
-                if vm.appLocked && btManager.gameState != .active {
+                if vm.appLocked && sessionManager.gameState != .active {
                     Button("App sperren", systemImage: "lock.fill") {
                         withAnimation {
                             vm.appCurrentlyLocked = true
@@ -122,49 +122,49 @@ struct MainMap: View {
         }
         .onChange(of: locManager.lastLocation) {
             guard let coord = locManager.lastLocation?.coordinate else { return }
-            btManager.broadcastLocation(coord, spd: locManager.speedInKmh)
-            if btManager.gameState == .active && locManager.lastLocation != nil {
+            sessionManager.broadcastLocation(coord, spd: locManager.speedInKmh)
+            if sessionManager.gameState == .active && locManager.lastLocation != nil {
                 vm.runLog.append(locManager.lastLocation!)
             }
         }
-        .onChange(of: btManager.gameState) { old, new in
+        .onChange(of: sessionManager.gameState) { old, new in
             if old != .paused {
                 stateChange()
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)) { _ in
-            vm.handleAppTermination(btManager: btManager)
+            vm.handleAppTermination()
         }
         .onReceive(vm.gameTimr) { _ in
             gameTimr()
             vm.updateDeviceInfo()
-            BluetoothManager.shared.updateLiveActivity(statusMessage: "Ja")
+            sessionManager.updateLiveActivity(statusMessage: "Ja")
         }
         .onReceive(vm.longTimr) { _ in
-            if btManager.syncedZombies.count < 15 {
-                var allPositions = Array(btManager.peerLocations.values)
+            if sessionManager.syncedZombies.count < 15 {
+                var allPositions = sessionManager.peerLocationsList
                 if let myLoc = LocationManager.shared.lastLocation?.coordinate {
                     allPositions.append(myLoc)
                 }
                 
                 if let randomPlayerCoord = allPositions.randomElement() {
                     let zombieCoord = randomPlayerCoord.shiftedBy(meters: 100)
-                    if btManager.isHosting {
-                        btManager.broadcastZombieSpawn(id: UUID(), coord: zombieCoord)
+                    if sessionManager.isHosting {
+                        sessionManager.broadcastZombieSpawn(id: UUID(), coord: zombieCoord)
                     }
                 }
             }
         }
     }
     func stateChange() {
-        if btManager.gameState == .active {
+        if sessionManager.gameState == .active {
             vm.joiningView = false
             vm.gameRunning = true
             vm.gameStopwatch = 0
             vm.runStartDate = Date()
-            BluetoothManager.shared.startLiveActivity()
-            if !btManager.isHosting {
-                switch btManager.gameMode {
+            sessionManager.startLiveActivity()
+            if !sessionManager.isHosting {
+                switch sessionManager.gameMode {
                 case -1:
                     vm.antiCheatLimit = 5
                     vm.gameMode = -1
@@ -184,11 +184,10 @@ struct MainMap: View {
             UIApplication.shared.isIdleTimerDisabled = true
             locManager.manager.allowsBackgroundLocationUpdates = true
             locManager.manager.pausesLocationUpdatesAutomatically = false
-        } else if btManager.gameState == .gameOver || btManager.gameState == .win {
+        } else if sessionManager.gameState == .gameOver || sessionManager.gameState == .win {
             vm.overviewShown = true
-            btManager.localItems.removeAll()
-            btManager.stopAll()
-            BluetoothManager.shared.endLiveActivity(finalMessage: "Ende!")
+            sessionManager.stopAll()
+            sessionManager.endLiveActivity(finalMessage: "Ende!")
             vm.inGame = false
             vm.gameRunning = false
             vm.runEndDate = Date()
@@ -200,26 +199,26 @@ struct MainMap: View {
     func gameTimr() {
         if let lastLoc = locManager.lastLocation {
             let coord = lastLoc.coordinate
-            btManager.broadcastLocation(coord, spd: locManager.speedInKmh)
-            btManager.checkItems(myLocation: coord)
-            btManager.checkWinCondition(myLocation: coord)
-            btManager.checkZombieCollisions(myLocation: coord)
+            sessionManager.broadcastLocation(coord, spd: locManager.speedInKmh)
+            sessionManager.checkItems(myLocation: coord)
+            sessionManager.checkWinCondition(myLocation: coord)
+            sessionManager.checkZombieCollisions(myLocation: coord)
         }
 
-        if btManager.gameState == .active {
+        if sessionManager.gameState == .active {
             vm.gameStopwatch += 1
             
             if locManager.speedInKmh <= 0.5 {
-                let newHealth = btManager.health + 1
-                btManager.health = Math.clamp(newHealth, min: 0, max: 100)
+                let newHealth = sessionManager.health + 1
+                sessionManager.health = Math.clamp(newHealth, min: 0, max: 100)
             }
             
-            if btManager.isHosting {
+            if sessionManager.isHosting {
                 if let hostCoord = locManager.lastLocation?.coordinate {
                     let multiplier = 0.5 * (vm.antiCheatLimit * 0.1)
-                    btManager.updateZombieAI(hostLocation: hostCoord, multiplier: multiplier)
+                    sessionManager.updateZombieAI(hostLocation: hostCoord, multiplier: multiplier)
                 }
-                btManager.sendPing()
+                sessionManager.sendPing()
             }
         }
     }
@@ -228,23 +227,23 @@ struct MainMap: View {
 struct MainMapContents: MapContent {
     @ObservedObject var vm: ContentViewModel
     @StateObject var locManager = LocationManager.shared
-    @ObservedObject var btManager: BluetoothManager
+    @ObservedObject var sessionManager: GameSessionManager = .shared
     var body: some MapContent {
         UserAnnotation()
-        ForEach(Array(btManager.syncedZombies), id: \.key) { (id, coordinate) in
+        ForEach(Array(sessionManager.syncedZombies), id: \.key) { (id, coordinate) in
             MapCircle(center: coordinate, radius: 5)
                 .foregroundStyle(.red.opacity(0.4))
                 .stroke(.red)
             MapCircle(center: coordinate, radius: 2)
                 .foregroundStyle(.red.opacity(0.8))
         }
-        if vm.selectedObj != nil && btManager.gameState == .waiting {
+        if vm.selectedObj != nil && sessionManager.gameState == .waiting {
             MapCircle(center: vm.selectedObj!.coordinate, radius: 15)
                 .foregroundStyle(.green.opacity(0.5))
                 .stroke(.green, style: StrokeStyle(lineWidth: 1))
         }
-        ForEach(Array(btManager.peerLocations), id: \.key) { (id, coordinate) in
-            Annotation("\(id.displayName)", coordinate: coordinate) {
+        ForEach(sessionManager.peerDisplayLocations, id: \.id) { peer in
+            Annotation("\(peer.id)", coordinate: peer.coordinate) {
                 ZStack {
                     Circle().fill(.green).frame(width: 15, height: 15)
                         .opacity(0.4)
@@ -252,7 +251,7 @@ struct MainMapContents: MapContent {
                 }
             }
         }
-        ForEach(btManager.localItems) { item in
+        ForEach(sessionManager.localItems) { item in
             MapCircle(center: item.coordinate, radius: 10)
                 .foregroundStyle(.blue.opacity(0.4))
                 .stroke(.blue, style: StrokeStyle(dashPhase: 3))
@@ -261,22 +260,21 @@ struct MainMapContents: MapContent {
             })
                 .annotationTitles(.hidden)
         }
-        if btManager.targetLocation != nil {
-            MapCircle(center: btManager.targetLocation!, radius: 15)
+        if sessionManager.targetLocation != nil {
+            MapCircle(center: sessionManager.targetLocation!, radius: 15)
                 .foregroundStyle(.green.opacity(0.4))
                 .stroke(.green, style: StrokeStyle(dashPhase: 3))
-            Annotation("Ziel", coordinate: btManager.targetLocation!, content: {
+            Annotation("Ziel", coordinate: sessionManager.targetLocation!, content: {
                 Image(systemName: "flag.pattern.checkered")
             })
         }
-        if btManager.gameState == .active && vm.showRunLog {
+        if sessionManager.gameState == .active && vm.showRunLog {
             MapPolyline(coordinates: vm.runLog.map { $0.coordinate })
                 .stroke(.red, lineWidth: 5)
         }
-        if btManager.gameState == .active && vm.navigatedRoute != nil {
+        if sessionManager.gameState == .active && vm.navigatedRoute != nil {
             MapPolyline(vm.navigatedRoute!)
                 .stroke(.blue, lineWidth: 10)
         }
     }
 }
-

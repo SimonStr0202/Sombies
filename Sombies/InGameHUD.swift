@@ -5,7 +5,7 @@ import MapKit
 
 struct InGameHUD: View {
     @ObservedObject var vm: ContentViewModel
-    @ObservedObject var btManager: BluetoothManager
+    @ObservedObject var sessionManager: GameSessionManager = .shared
     @State var editOverview = false
     var body: some View {
         VStack {
@@ -15,11 +15,11 @@ struct InGameHUD: View {
                         HStack {
                             Image(systemName: "heart.fill")
                                 .foregroundStyle(.red)
-                            Gauge(value: Math.clamp(btManager.health, min: 0, max: 100), in: 0...100, label: {})
+                            Gauge(value: Math.clamp(sessionManager.health, min: 0, max: 100), in: 0...100, label: {})
                                 .tint(LinearGradient(colors: [.red, .yellow, .green], startPoint: .leading, endPoint: .trailing))
-                            if !btManager.isHosting {
+                            if !sessionManager.isHosting {
                                 TimelineView(.periodic(from: .now, by: 0.19)) { context in
-                                    let timeSinceLastPackage = context.date.timeIntervalSince(btManager.lastPingReceivedAt)
+                                    let timeSinceLastPackage = context.date.timeIntervalSince(sessionManager.lastPingReceivedAt)
                                     let connectionHealth = max(0, min(1, 1.0 - (timeSinceLastPackage - 1)))
                                     
                                     HStack(spacing: 8) {
@@ -28,7 +28,7 @@ struct InGameHUD: View {
                                         if vm.precisePingNumbers {
                                             VStack(alignment: .leading, spacing: 0) {
                                                 if timeSinceLastPackage < 1.5 {
-                                                    Text("\(Int(Math.toPositive(btManager.lastPing))) ms")
+                                                    Text("\(Int(Math.toPositive(sessionManager.lastPing))) ms")
                                                         .font(.system(.caption, design: .monospaced))
                                                         .fontWeight(.bold)
                                                 } else {
@@ -111,13 +111,13 @@ struct InGameHUD: View {
                                 Text("Heile 50 Leben")
                                 SlideButton(String(localized: "Benutzen"), action: {
                                     if vm.medkits >= 1 {
-                                        if btManager.health < 70 {
-                                            btManager.health = Math.clamp(btManager.health + 50, min: 0, max: 100)
+                                        if sessionManager.health < 70 {
+                                            sessionManager.health = Math.clamp(sessionManager.health + 50, min: 0, max: 100)
                                             vm.medkits -= 1
                                         }
                                     }
                                 })
-                                .disabled(vm.medkits == 0 || btManager.health >= 70)
+                                .disabled(vm.medkits == 0 || sessionManager.health >= 70)
                             }
                             .padding(.horizontal)
                             VStack {
@@ -129,10 +129,12 @@ struct InGameHUD: View {
                                 SlideButton(String(localized: "Benutzen"), action: {
                                     if vm.navigators >= 1 {
                                         do {
-                                            let r = await vm.calculateRoute(from: LocationManager.shared.lastLocation!.coordinate, to: btManager.targetLocation!, type: .walking)
-                                            if r != nil {
-                                                vm.navigators -= 1
-                                                vm.navigatedRoute = r!
+                                            if let target = sessionManager.targetLocation, let lastLoc = LocationManager.shared.lastLocation {
+                                                let r = await vm.calculateRoute(from: lastLoc.coordinate, to: target, type: .walking)
+                                                if r != nil {
+                                                    vm.navigators -= 1
+                                                    vm.navigatedRoute = r!
+                                                }
                                             }
                                         }
                                     }
@@ -152,13 +154,13 @@ struct InGameHUD: View {
                     VStack {
                         Toggle("Ping-Nummer zeigen", isOn: $vm.precisePingNumbers)
                         Toggle("Gelaufene Strecke zeigen", isOn: $vm.showRunLog)
-                        if btManager.gameState != .paused {
+                        if sessionManager.gameState != .paused {
                             Button("Pause") {
-                                btManager.togglePause()
+                                sessionManager.togglePause()
                             }
                         }
                         SlideButton(String(localized: "Beenden"), styling: SlideButtonStyling(indicatorColor: .red), action: {
-                            btManager.triggerGameOver()
+                            sessionManager.triggerGameOver()
                         })
                     }
                     .padding(.horizontal, 20)

@@ -14,26 +14,32 @@ struct ContentView: View {
     @StateObject var vm = ContentViewModel()
     @StateObject var btManager = BluetoothManager.shared
     @StateObject var storeManager = StoreManager()
+    @StateObject var gameSessionManager = GameSessionManager.shared
     
     @StateObject var locManager = LocationManager.shared
     @StateObject var runManager = RunManager.shared
+    
+    @State var joinMode = 0
+    @State var joinRoomID = ""
+    @State var joinRoomPassword = ""
+    
     let vibrate = UIImpactFeedbackGenerator(style: .medium)
     var body: some View {
         ZStack {
             ZStack {
-                MainMap(vm: vm, btManager: btManager)
+                MainMap(vm: vm, sessionManager: gameSessionManager)
                     .safeAreaPadding(.top)
                     .padding(.top)
             }
             .safeAreaInset(edge: .bottom, content: {
                 VStack {
-                    if btManager.gameState != .active && btManager.gameState != .paused {
+                    if gameSessionManager.gameState != .active && gameSessionManager.gameState != .paused {
                         BottomButtons(vm: vm)
                             .padding([.horizontal, .bottom], 25)
                     } else {
-                        if btManager.gameState == .active || btManager.gameState == .paused {
-                            StatusBar(vm: vm, btManager: btManager)
-                            InGameHUD(vm: vm, btManager: btManager)
+                        if gameSessionManager.gameState == .active || gameSessionManager.gameState == .paused {
+                            StatusBar(vm: vm, sessionManager: gameSessionManager)
+                            InGameHUD(vm: vm, sessionManager: gameSessionManager)
                                 .ignoresSafeArea()
                                 .glassEffect(.regular.interactive(), in: ContainerRelativeShape())
                                 .padding([.horizontal, .bottom])
@@ -46,74 +52,115 @@ struct ContentView: View {
             .sheet(isPresented: $vm.profileShown) {
                 ProfileView(vm: vm, shopManager: storeManager)
             }
-            .sheet(isPresented: $vm.joiningView, content: {
+            .onChange(of: gameSessionManager.gameState) { _, newState in
+                if newState == .active {
+                    vm.gameRunning = true
+                    vm.joiningView = false
+                    vm.hostingView = false
+                }
+            }
+            .sheet(isPresented: $vm.joiningView) {
                 NavigationStack {
                     VStack {
                         if !vm.inGame {
-                            List {
-                                Section("Verfügbare Spieler") {
-                                    ForEach(btManager.availablePeers, id: \.self) { peer in
-                                        HStack {
-                                            Text(peer.displayName)
-                                            Spacer()
-                                            Button("Beitreten") {
-                                                vm.inGame = true
-                                                btManager.invitePeer(peer)
+                            // MARK: - Eingabe / Suche
+                            if gameSessionManager.selectedMode == .bluetooth {
+                                List {
+                                    Section("Verfügbare Spieler (Lokal)") {
+                                        ForEach(btManager.availablePeers, id: \.self) { peer in
+                                            HStack {
+                                                Text(peer.displayName)
+                                                Spacer()
+                                                Button("Beitreten") {
+                                                    vm.inGame = true
+                                                    btManager.invitePeer(peer)
+                                                }
                                             }
                                         }
                                     }
-                                    .id(btManager.availablePeers.count)
+                                }
+                            } else if gameSessionManager.selectedMode == .supabase {
+                                List {
+                                    Section("ID und Passwort eingeben") {
+                                        TextField("ID", text: $joinRoomID)
+                                        SecureField("Passwort", text: $joinRoomPassword)
+                                    }
+                                    Section {
+                                        Button("Beitreten") {
+                                            Task {
+                                                await gameSessionManager.joinParty(roomId: joinRoomID, password: joinRoomPassword)
+                                                if gameSessionManager.fullyConnected {
+                                                    vm.inGame = true
+                                                }
+                                            }
+                                        }
+                                        .disabled(joinRoomID.isEmpty)
+                                    }
                                 }
                             }
                         } else {
+                            // MARK: - Statusanzeige
                             Spacer()
                             ProgressView()
-                            Text(btManager.fullyConnected ? "Auf den Start warten..." : "Verbinden...")
-                                .id(btManager.fullyConnected)
-                                .onChange(of: btManager.connectedPeers.count) {
-                                    if btManager.connectedPeers.count == 0 {
-                                        vm.inGame = false
-                                    }
-                                }
+                            
+                            // Prüft ob der Manager einsatzbereit ist
+                            let isConnected = gameSessionManager.fullyConnected
+                            
+                            Text(isConnected ? "Auf den Start warten..." : "Verbinden...")
+                                .font(.headline)
+                                .padding()
+                            
                             Spacer()
                         }
                     }
                     .navigationTitle("Beitreten")
                     .toolbar {
-                        ToolbarItem(placement: .topBarTrailing, content: {
+                        ToolbarItem(placement: .principal) {
+                            Picker("Spielmodus", selection: $gameSessionManager.selectedMode) {
+                                Text("Lokal").tag(NetworkMode.bluetooth)
+                                Text("Internet").tag(NetworkMode.supabase)
+                            }
+                            .pickerStyle(.segmented)
+                            .disabled(vm.inGame)
+                        }
+                        
+                        ToolbarItem(placement: .topBarTrailing) {
                             Button("Schließen", systemImage: "xmark") {
-                                if vm.inGame {
-                                    vm.showCancelHostAlert = true
+                                if vm.inGame || gameSessionManager.fullyConnected {
+                                    vm.showCancelJoinAlert = true
                                 } else {
+                                    gameSessionManager.leaveParty()
+                                    vm.inGame = false
                                     vm.joiningView = false
                                 }
                             }
-                            .confirmationDialog("Suche beenden?", isPresented: $vm.showCancelHostAlert, actions: {
-                                Button("Beenden", role: .destructive, action: {
-                                    btManager.stopAll()
-                                    btManager.leaveParty()
+                            .confirmationDialog("Lobby verlassen?", isPresented: $vm.showCancelJoinAlert) {
+                                Button("Verlassen", role: .destructive) {
+                                    gameSessionManager.leaveParty()
                                     vm.inGame = false
                                     vm.joiningView = false
-                                })
-                            }, message: {
-                                Text("Du verlässt das aktuelle Spiel")
-                            })
-                        })
+                                }
+                            } message: {
+                                Text("Möchtest du die Lobby wirklich verlassen?")
+                            }
+                        }
                     }
                 }
                 .presentationDetents([.medium, .large])
-                .presentationBackgroundInteraction(.enabled)
                 .interactiveDismissDisabled()
                 .onAppear {
-                    btManager.lookForParties()
+                    if gameSessionManager.selectedMode == .bluetooth {
+                        btManager.lookForParties()
+                    }
                 }
-            })
+            }
+
             .sheet(isPresented: $vm.overviewShown, content: {
                 OverviewDisplay(vm: vm)
                 .interactiveDismissDisabled()
             })
             .sheet(isPresented: $vm.hostingView, content: {
-                HostingView(vm: vm, btManager: btManager)
+                HostingView(vm: vm, locManager: vm.locManager)
             })
             if vm.warningShown {
                 Warning(vm: vm)
