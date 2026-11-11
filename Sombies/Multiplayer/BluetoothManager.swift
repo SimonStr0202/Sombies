@@ -1,7 +1,7 @@
 import Combine
 import CoreLocation
 import Foundation
-import MultipeerConnectivity
+import CoreBluetooth
 import extendedSyntax
 import OSLog
 import SwiftUI
@@ -10,6 +10,11 @@ import ActivityKit
 
 struct GameSignalContainer: Codable {
     let signal: GameSignal
+}
+
+struct GamePeer: Hashable, Identifiable {
+    let id: UUID
+    let displayName: String
 }
 
 enum GameSignal: Codable {
@@ -33,38 +38,39 @@ enum GameState: String, Codable {
 @MainActor
 class BluetoothManager: NSObject, ObservableObject {
     static let shared = BluetoothManager()
-    private let serviceType = "sombies-hunt"
-    var currentPeerID: MCPeerID {
-        let currentName = UserDefaults.standard.string(forKey: "userName") ?? UIDevice.current.name
-        
-        if let data = UserDefaults.standard.data(forKey: "savedPeerID"),
-           let decoded = try? NSKeyedUnarchiver.unarchivedObject(ofClass: MCPeerID.self, from: data) {
-            
-            if decoded.displayName == currentName {
-                return decoded
-            }
-        }
-        
-        let newID = MCPeerID(displayName: currentName)
-        if let data = try? NSKeyedArchiver.archivedData(withRootObject: newID, requiringSecureCoding: true) {
-            UserDefaults.standard.set(data, forKey: "savedPeerID")
-        }
-        return newID
+    private let serviceUUID = CBUUID(string: "A7B10001-5A4B-4D4F-9C2A-534F4D424945")
+    private let writeUUID = CBUUID(string: "A7B10002-5A4B-4D4F-9C2A-534F4D424945")
+    private let notifyUUID = CBUUID(string: "A7B10003-5A4B-4D4F-9C2A-534F4D424945")
+    private var peripheralManager: CBPeripheralManager!
+    private var centralManager: CBCentralManager!
+    private var connectedPeripherals: [UUID: CBPeripheral] = [:]
+    private var subscribedCentrals: [UUID: CBCentral] = [:]
+    private var peerNames: [UUID: String] = [:]
+    private var discoveredPeripherals: [UUID: CBPeripheral] = [:]
+    private var writeCharacteristic: CBCharacteristic?
+    private var notifyCharacteristic: CBMutableCharacteristic?
+    private var heartbeatTimer: Timer?
+    private var lastBroadcastedLocation: CLLocationCoordinate2D?
+    var currentActivity: Activity<SombiesWidgetsAttributes>? = nil
+
+    var currentPeerID: GamePeer {
+        let name = UserDefaults.standard.string(forKey: "userName") ?? UIDevice.current.name
+        return GamePeer(id: UUID(uuidString: UserDefaults.standard.string(forKey: "sombiesBLEPeerID") ?? "") ?? {
+            let id = UUID()
+            UserDefaults.standard.set(id.uuidString, forKey: "sombiesBLEPeerID")
+            return id
+        }(), displayName: name)
     }
-    
-    private var serviceAdvertiser: MCNearbyServiceAdvertiser?
-    private var serviceBrowser: MCNearbyServiceBrowser?
-    
-    @Published var session: MCSession
-    @Published var connectedPeers: [MCPeerID] = []
-    @Published var availablePeers: [MCPeerID] = []
-    
+
+    @Published var connectedPeers: [GamePeer] = []
+    @Published var availablePeers: [GamePeer] = []
+
     @Published var isHosting = false
     @Published var isScanning = false
     @Published var gameState: GameState = .waiting
     @Published var gameMode: Int = 0
     
-    @Published var peerLocations: [MCPeerID: CLLocationCoordinate2D] = [:]
+    @Published var peerLocations: [GamePeer: CLLocationCoordinate2D] = [:]
     @Published var syncedZombies: [UUID: CLLocationCoordinate2D] = [:]
     @Published var targetLocation: CLLocationCoordinate2D?
     
@@ -75,9 +81,6 @@ class BluetoothManager: NSObject, ObservableObject {
     @Published var fullyConnected: Bool = false
     @Published var localItems: [LocalItem] = []
     
-    private var lastBroadcastedLocation: CLLocationCoordinate2D?
-    var currentActivity: Activity<SombiesWidgetsAttributes>? = nil
-
     func startLiveActivity() {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
         
@@ -151,25 +154,43 @@ class BluetoothManager: NSObject, ObservableObject {
     }
     
     override init() {
-        let initialName = UserDefaults.standard.string(forKey: "userName") ?? UIDevice.current.name
-        let initialPeerID = MCPeerID(displayName: initialName)
-        self.session = MCSession(peer: initialPeerID, securityIdentity: nil, encryptionPreference: .none)
-        
         super.init()
-        
-        self.session = MCSession(peer: self.currentPeerID, securityIdentity: nil, encryptionPreference: .none)
-        self.session.delegate = self
+        peripheralManager = CBPeripheralManager(delegate: self, queue: .main)
+        centralManager = CBCentralManager(delegate: self, queue: .main)
     }
-    func sendSignal(_ signal: GameSignal, reliable: Bool = true) {
-        guard !session.connectedPeers.isEmpty else { return }
-        do {
-            let data = try JSONEncoder().encode(signal)
-            try session.send(data, toPeers: session.connectedPeers, with: reliable ? .reliable : .unreliable)
-        } catch {
-            Logger.network.error("Sende-Fehler: \(error.localizedDescription)")
+
+    private struct Packet: Codable {
+        let peerID: UUID
+        let displayName: String
+        let signal: GameSignal
+    }
+
+    private func startHeartbeat() {
+        heartbeatTimer?.invalidate()
+        heartbeatTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
+            guard let self else { return }
+            Task { @MainActor in
+                if self.isHosting {
+                    self.sendSignal(.ping(t: Date().timeIntervalSince1970), reliable: false)
+                } else if self.fullyConnected && Date().timeIntervalSince(self.lastPingReceivedAt) > 8 {
+                    self.gameState = .gameOver
+                    self.stopAll()
+                    self.centralManager.cancelPeripheralConnection(self.discoveredPeripherals.values.first(where: { $0.state == .connected }) ?? CBPeripheral())
+                }
+            }
         }
     }
-    
+
+    func sendSignal(_ signal: GameSignal, reliable: Bool = true) {
+        guard let data = try? JSONEncoder().encode(Packet(peerID: currentPeerID.id, displayName: currentPeerID.displayName, signal: signal)) else { return }
+        if isHosting {
+            guard let characteristic = notifyCharacteristic else { return }
+            _ = peripheralManager.updateValue(data, for: characteristic, onSubscribedCentrals: Array(subscribedCentrals.values))
+        } else if let peripheral = discoveredPeripherals.values.first(where: { $0.state == .connected }), let characteristic = writeCharacteristic {
+            peripheral.writeValue(data, for: characteristic, type: reliable ? .withResponse : .withoutResponse)
+        }
+    }
+
     func broadcastLocation(_ coord: CLLocationCoordinate2D, spd: Double) {
         if let last = lastBroadcastedLocation {
             let dist = CLLocation(latitude: last.latitude, longitude: last.longitude)
@@ -177,66 +198,82 @@ class BluetoothManager: NSObject, ObservableObject {
             if dist < 1.0 { return }
         }
         lastBroadcastedLocation = coord
-        sendSignal(.playerLocation(id: self.currentPeerID.displayName, lat: coord.latitude, lon: coord.longitude), reliable: false)
-        if spd > 3 {
-            self.resumeGame()
-        }
+        sendSignal(.playerLocation(id: currentPeerID.displayName, lat: coord.latitude, lon: coord.longitude), reliable: false)
+        if spd > 3 { resumeGame() }
     }
-    
+
     func broadcastZombieSpawn(id: UUID, coord: CLLocationCoordinate2D) {
-        if !syncedZombies.keys.contains(id) {
-            syncedZombies[id] = coord
-        }
+        if !syncedZombies.keys.contains(id) { syncedZombies[id] = coord }
         sendSignal(.zombieSpawned(id: id, lat: coord.latitude, lon: coord.longitude))
     }
-    
-    func sendPing() {
-        sendSignal(.ping(t: Date().timeIntervalSince1970), reliable: false)
-    }
+
+    func sendPing() { sendSignal(.ping(t: Date().timeIntervalSince1970), reliable: false) }
+
     func leaveParty() {
         sendSignal(.partyAction(action: .leave))
-        session.disconnect()
+        if isHosting {
+            peripheralManager.removeAllServices()
+            subscribedCentrals.removeAll()
+        } else {
+            centralManager.stopScan()
+            for peripheral in discoveredPeripherals.values { centralManager.cancelPeripheralConnection(peripheral) }
+        }
         stopAll()
     }
-    
+
     func terminateParty() {
         sendSignal(.gameStateChanged(.gameOver, mode: gameMode))
-        session.disconnect()
-        stopAll()
+        gameState = .gameOver
+        leaveParty()
     }
-    
+
     func triggerGameOver() {
         gameState = .gameOver
         sendSignal(.gameStateChanged(.gameOver, mode: gameMode))
     }
+
     func hostParty() {
         stopAll()
         isHosting = true
-        serviceAdvertiser = MCNearbyServiceAdvertiser(peer: self.currentPeerID, discoveryInfo: nil, serviceType: serviceType)
-        serviceAdvertiser?.delegate = self
-        serviceAdvertiser?.startAdvertisingPeer()
+        isScanning = false
+        if peripheralManager.state == .poweredOn { configureAndAdvertise() }
+        startHeartbeat()
     }
-    
+
+    private func configureAndAdvertise() {
+        peripheralManager.removeAllServices()
+        let write = CBMutableCharacteristic(type: writeUUID, properties: [.write, .writeWithoutResponse], value: nil, permissions: [.writeable])
+        let notify = CBMutableCharacteristic(type: notifyUUID, properties: [.notify], value: nil, permissions: [.readable])
+        let service = CBMutableService(type: serviceUUID, primary: true)
+        service.characteristics = [write, notify]
+        notifyCharacteristic = notify
+        peripheralManager.add(service)
+    }
+
     func lookForParties() {
         stopAll()
-        session.disconnect()
+        isHosting = false
         isScanning = true
         availablePeers.removeAll()
-        serviceBrowser = MCNearbyServiceBrowser(peer: self.currentPeerID, serviceType: serviceType)
-        serviceBrowser?.delegate = self
-        serviceBrowser?.startBrowsingForPeers()
+        discoveredPeripherals.removeAll()
+        if centralManager.state == .poweredOn { centralManager.scanForPeripherals(withServices: [serviceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false]) }
+        startHeartbeat()
     }
-    
+
     func stopAll() {
-        serviceAdvertiser?.stopAdvertisingPeer()
-        serviceBrowser?.stopBrowsingForPeers()
+        heartbeatTimer?.invalidate()
+        heartbeatTimer = nil
+        peripheralManager?.stopAdvertising()
+        centralManager?.stopScan()
         isHosting = false
         isScanning = false
     }
-    
-    func invitePeer(_ peerID: MCPeerID) {
-        serviceBrowser?.invitePeer(peerID, to: session, withContext: nil, timeout: 30)
+
+    func invitePeer(_ peerID: GamePeer) {
+        guard let peripheral = discoveredPeripherals[peerID.id] else { return }
+        centralManager.connect(peripheral, options: nil)
     }
+
     func checkWinCondition(myLocation: CLLocationCoordinate2D) {
         guard let target = targetLocation, gameState == .active else { return }
         let dist = CLLocation(latitude: myLocation.latitude, longitude: myLocation.longitude)
@@ -409,74 +446,147 @@ class BluetoothManager: NSObject, ObservableObject {
     }
 }
 
-extension BluetoothManager: MCSessionDelegate {
-    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-            self.connectedPeers = session.connectedPeers
-            if state == .notConnected && self.gameState == .active {
-                if self.isHosting { self.hostParty() } else { self.lookForParties() }
-            }
-            if state == .connected {
-                self.fullyConnected = true
-            } else {
-                self.fullyConnected = false
-            }
+extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        if central.state == .poweredOn, isScanning {
+            central.scanForPeripherals(withServices: [serviceUUID], options: nil)
         }
     }
-    
-    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        if let signal = try? JSONDecoder().decode(GameSignal.self, from: data) {
-            DispatchQueue.main.async {
-                switch signal {
-                case .playerLocation(_, let lat, let lon):
-                    self.peerLocations[peerID] = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                case .zombieSpawned(let id, let lat, let lon):
-                    self.syncedZombies[id] = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                case .zombieKilled(let id):
-                    self.syncedZombies.removeValue(forKey: id)
-                case .gameStateChanged(let state, let mode):
-                    self.gameState = state
-                    self.gameMode = mode
-                case .setTargetLocation(let lat, let lon):
-                    self.targetLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                    if let target = self.targetLocation {
-                        let seed = UInt64(abs(target.latitude * 100000) + abs(target.longitude * 100000))
-                        self.generateLocalItems(seed: seed, center: target)
-                    }
-                case .ping(let t):
-                    self.lastPing = (Date().timeIntervalSince1970 - t) * 1000
-                    self.lastPingReceivedAt = Date()
-                case .partyAction(let action):
-                    if action == .leave { self.session.disconnect() }
+
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        discoveredPeripherals[peripheral.identifier] = peripheral
+        let name = peripheral.name ?? (advertisementData[CBAdvertisementDataLocalNameKey] as? String) ?? "Spieler"
+        let peer = GamePeer(id: peripheral.identifier, displayName: name)
+        if !availablePeers.contains(peer) { availablePeers.append(peer) }
+    }
+
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        peripheral.delegate = self
+        peripheral.discoverServices([serviceUUID])
+        fullyConnected = true
+        lastPingReceivedAt = Date()
+        if !isHosting {
+            let host = GamePeer(id: peripheral.identifier, displayName: peripheral.name ?? "Host")
+            connectedPeers = [host]
+        }
+    }
+
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        if !isHosting && fullyConnected {
+            fullyConnected = false
+            connectedPeers.removeAll()
+            gameState = .gameOver
+            stopAll()
+        }
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        guard let services = peripheral.services else { return }
+        for service in services where service.uuid == serviceUUID {
+            peripheral.discoverCharacteristics([writeUUID, notifyUUID], for: service)
+        }
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        guard let characteristics = service.characteristics else { return }
+        for characteristic in characteristics {
+            if characteristic.uuid == writeUUID { writeCharacteristic = characteristic }
+            if characteristic.uuid == notifyUUID { peripheral.setNotifyValue(true, for: characteristic) }
+        }
+        if let writeCharacteristic {
+            let packet = Packet(peerID: currentPeerID.id, displayName: currentPeerID.displayName, signal: .partyAction(action: .join))
+            if let data = try? JSONEncoder().encode(packet) { peripheral.writeValue(data, for: writeCharacteristic, type: .withResponse) }
+        }
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        guard let data = characteristic.value else { return }
+        receivePacket(data, from: nil)
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+        if error != nil { fullyConnected = false }
+    }
+}
+
+extension BluetoothManager: CBPeripheralManagerDelegate {
+    func peripheralManagerDidUpdateState(_ manager: CBPeripheralManager) {
+        guard manager.state == .poweredOn else { return }
+        if isHosting { configureAndAdvertise() }
+        if isScanning, centralManager.state == .poweredOn {
+            centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
+        }
+    }
+
+    func peripheralManager(_ manager: CBPeripheralManager, didAdd service: CBService, error: Error?) {
+        guard error == nil, isHosting else { return }
+        manager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [serviceUUID], CBAdvertisementDataLocalNameKey: currentPeerID.displayName])
+    }
+
+    func peripheralManager(_ manager: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
+        subscribedCentrals[central.identifier] = central
+        peerNames[central.identifier] = peerNames[central.identifier] ?? "Spieler"
+        connectedPeers = subscribedCentrals.keys.map { GamePeer(id: $0, displayName: peerNames[$0] ?? "Spieler") }
+        fullyConnected = !connectedPeers.isEmpty
+    }
+
+    func peripheralManager(_ manager: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
+        subscribedCentrals.removeValue(forKey: central.identifier)
+        peerNames.removeValue(forKey: central.identifier)
+        connectedPeers.removeAll { $0.id == central.identifier }
+        fullyConnected = !connectedPeers.isEmpty
+    }
+
+    func peripheralManager(_ manager: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
+        for request in requests {
+            if let data = request.value {
+                receivePacket(data, from: request.central)
+            }
+            manager.respond(to: request, withResult: .success)
+        }
+    }
+}
+
+private extension BluetoothManager {
+    func receivePacket(_ data: Data, from central: CBCentral?) {
+        guard let packet = try? JSONDecoder().decode(Packet.self, from: data) else { return }
+        if let central {
+            peerNames[central.identifier] = packet.displayName
+            if !connectedPeers.contains(where: { $0.id == central.identifier }) {
+                connectedPeers.append(GamePeer(id: central.identifier, displayName: packet.displayName))
+            }
+            fullyConnected = true
+        }
+        DispatchQueue.main.async {
+            self.lastPingReceivedAt = Date()
+            switch packet.signal {
+            case .playerLocation(_, let lat, let lon):
+                let id = GamePeer(id: packet.peerID, displayName: packet.displayName)
+                self.peerLocations[id] = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            case .zombieSpawned(let id, let lat, let lon):
+                self.syncedZombies[id] = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            case .zombieKilled(let id):
+                self.syncedZombies.removeValue(forKey: id)
+            case .gameStateChanged(let state, let mode):
+                self.gameState = state
+                self.gameMode = mode
+            case .setTargetLocation(let lat, let lon):
+                self.targetLocation = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                if let target = self.targetLocation {
+                    let seed = UInt64(abs(target.latitude * 100000) + abs(target.longitude * 100000))
+                    self.generateLocalItems(seed: seed, center: target)
+                }
+            case .ping(let t):
+                self.lastPing = (Date().timeIntervalSince1970 - t) * 1000
+                self.lastPingReceivedAt = Date()
+            case .partyAction(let action):
+                if action == .leave, let central {
+                    self.subscribedCentrals.removeValue(forKey: central.identifier)
+                    self.connectedPeers.removeAll { $0.id == central.identifier }
+                    self.peerLocations.removeValue(forKey: GamePeer(id: packet.peerID, displayName: packet.displayName))
                 }
             }
         }
-    }
-    
-    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {}
-    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {}
-    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {}
-}
-
-extension BluetoothManager: MCNearbyServiceAdvertiserDelegate {
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            invitationHandler(true, self.session)
-        }
-    }
-}
-
-extension BluetoothManager: MCNearbyServiceBrowserDelegate {
-    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-        if !availablePeers.contains(peerID) {
-            self.objectWillChange.send()
-            availablePeers.append(peerID)
-        }
-    }
-    func browser(_ browser: MCNearbyServiceBrowser) {}
-    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        availablePeers.removeAll { $0 == peerID }
     }
 }
 
