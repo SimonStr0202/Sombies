@@ -175,7 +175,7 @@ class BluetoothManager: NSObject, ObservableObject {
                 } else if self.fullyConnected && Date().timeIntervalSince(self.lastPingReceivedAt) > 8 {
                     self.gameState = .gameOver
                     self.stopAll()
-                    self.centralManager.cancelPeripheralConnection(self.discoveredPeripherals.values.first(where: { $0.state == .connected }) ?? CBPeripheral())
+                    self.stopAll()
                 }
             }
         }
