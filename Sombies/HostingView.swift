@@ -1,6 +1,5 @@
 import SwiftUI
 import MapKit
-import MultipeerConnectivity
 
 struct HostingView: View {
     @ObservedObject var vm: ContentViewModel
