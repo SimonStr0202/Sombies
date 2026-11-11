@@ -8,10 +8,6 @@ import SwiftUI
 import GameCenterKit
 import ActivityKit
 
-struct GameSignalContainer: Codable {
-    let signal: GameSignal
-}
-
 struct GamePeer: Hashable, Identifiable {
     let id: UUID
     let displayName: String
@@ -43,7 +39,6 @@ class BluetoothManager: NSObject, ObservableObject {
     private let notifyUUID = CBUUID(string: "A7B10003-5A4B-4D4F-9C2A-534F4D424945")
     private var peripheralManager: CBPeripheralManager!
     private var centralManager: CBCentralManager!
-    private var connectedPeripherals: [UUID: CBPeripheral] = [:]
     private var subscribedCentrals: [UUID: CBCentral] = [:]
     private var peerNames: [UUID: String] = [:]
     private var discoveredPeripherals: [UUID: CBPeripheral] = [:]
@@ -524,8 +519,12 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
     }
 
     func peripheralManager(_ manager: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
+        guard subscribedCentrals.count < 3 || subscribedCentrals[central.identifier] != nil else {
+            return
+        }
         subscribedCentrals[central.identifier] = central
         peerNames[central.identifier] = peerNames[central.identifier] ?? "Spieler"
+        if subscribedCentrals.count >= 3 { manager.stopAdvertising() }
         connectedPeers = subscribedCentrals.keys.map { GamePeer(id: $0, displayName: peerNames[$0] ?? "Spieler") }
         fullyConnected = !connectedPeers.isEmpty
     }
@@ -535,6 +534,7 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         peerNames.removeValue(forKey: central.identifier)
         connectedPeers.removeAll { $0.id == central.identifier }
         fullyConnected = !connectedPeers.isEmpty
+        if isHosting { manager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [serviceUUID], CBAdvertisementDataLocalNameKey: currentPeerID.displayName]) }
     }
 
     func peripheralManager(_ manager: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
@@ -559,10 +559,19 @@ private extension BluetoothManager {
         }
         DispatchQueue.main.async {
             self.lastPingReceivedAt = Date()
+            if central != nil {
+                switch packet.signal {
+                case .playerLocation, .ping, .partyAction:
+                    break
+                default:
+                    return
+                }
+            }
             switch packet.signal {
             case .playerLocation(_, let lat, let lon):
                 let id = GamePeer(id: packet.peerID, displayName: packet.displayName)
                 self.peerLocations[id] = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                if self.isHosting { self.sendSignal(packet.signal, reliable: false) }
             case .zombieSpawned(let id, let lat, let lon):
                 self.syncedZombies[id] = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             case .zombieKilled(let id):
