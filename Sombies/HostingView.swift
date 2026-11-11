@@ -56,7 +56,7 @@ struct HostingView: View {
                 }
                 .safeAreaInset(edge: .bottom) {
                     VStack {
-                        Stepper("Spielerzahl: \(vm.hostPlayersAmount)", value: $vm.hostPlayersAmount, in: (isHosting ? 2 : 1)...8)
+                        Stepper("Spielerzahl: \(vm.hostPlayersAmount)", value: $vm.hostPlayersAmount, in: (isHosting ? 2 : 1)...4)
                             .animation(.linear, value: vm.hostPlayersAmount)
                             .contentTransition(.numericText())
                             .disabled(!isHosting)
