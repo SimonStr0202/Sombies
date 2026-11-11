@@ -170,6 +170,9 @@ class BluetoothManager: NSObject, ObservableObject {
                     self.sendSignal(.ping(t: Date().timeIntervalSince1970), reliable: false)
                 } else if self.fullyConnected && Date().timeIntervalSince(self.lastPingReceivedAt) > 8 {
                     self.gameState = .gameOver
+                    if let host = self.discoveredPeripherals.values.first(where: { $0.state == .connected }) {
+                        self.centralManager.cancelPeripheralConnection(host)
+                    }
                     self.stopAll()
                     self.stopAll()
                 }
@@ -276,8 +279,15 @@ class BluetoothManager: NSObject, ObservableObject {
         heartbeatTimer = nil
         peripheralManager?.stopAdvertising()
         centralManager?.stopScan()
+        for peripheral in discoveredPeripherals.values where peripheral.state == .connected {
+            centralManager?.cancelPeripheralConnection(peripheral)
+        }
         isHosting = false
         isScanning = false
+        fullyConnected = false
+        connectedPeers.removeAll()
+        peerLocations.removeAll()
+        pendingNotifications.removeAll()
     }
 
     func invitePeer(_ peerID: GamePeer) {
