@@ -45,6 +45,7 @@ class BluetoothManager: NSObject, ObservableObject {
     private var writeCharacteristic: CBCharacteristic?
     private var notifyCharacteristic: CBMutableCharacteristic?
     private var heartbeatTimer: Timer?
+    private var pendingNotifications: [Data] = []
     private var lastBroadcastedLocation: CLLocationCoordinate2D?
     var currentActivity: Activity<SombiesWidgetsAttributes>? = nil
 
@@ -180,7 +181,7 @@ class BluetoothManager: NSObject, ObservableObject {
         guard let data = try? JSONEncoder().encode(Packet(peerID: currentPeerID.id, displayName: currentPeerID.displayName, signal: signal)) else { return }
         if isHosting {
             guard let characteristic = notifyCharacteristic else { return }
-            _ = peripheralManager.updateValue(data, for: characteristic, onSubscribedCentrals: Array(subscribedCentrals.values))
+            sendNotification(data, characteristic: characteristic)
         } else if let peripheral = discoveredPeripherals.values.first(where: { $0.state == .connected }), let characteristic = writeCharacteristic {
             peripheral.writeValue(data, for: characteristic, type: reliable ? .withResponse : .withoutResponse)
         }
@@ -200,6 +201,21 @@ class BluetoothManager: NSObject, ObservableObject {
     func broadcastZombieSpawn(id: UUID, coord: CLLocationCoordinate2D) {
         if !syncedZombies.keys.contains(id) { syncedZombies[id] = coord }
         sendSignal(.zombieSpawned(id: id, lat: coord.latitude, lon: coord.longitude))
+    }
+
+    private func sendNotification(_ data: Data, characteristic: CBMutableCharacteristic) {
+        guard !subscribedCentrals.isEmpty else { return }
+        if !peripheralManager.updateValue(data, for: characteristic, onSubscribedCentrals: Array(subscribedCentrals.values)) {
+            pendingNotifications.append(data)
+        }
+    }
+
+    private func flushPendingNotifications() {
+        guard let characteristic = notifyCharacteristic else { return }
+        while !pendingNotifications.isEmpty && !subscribedCentrals.isEmpty {
+            if !peripheralManager.updateValue(pendingNotifications[0], for: characteristic, onSubscribedCentrals: Array(subscribedCentrals.values)) { return }
+            pendingNotifications.removeFirst()
+        }
     }
 
     func sendPing() { sendSignal(.ping(t: Date().timeIntervalSince1970), reliable: false) }
@@ -505,6 +521,10 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
 }
 
 extension BluetoothManager: CBPeripheralManagerDelegate {
+    func peripheralManagerIsReady(toUpdateSubscribers manager: CBPeripheralManager) {
+        flushPendingNotifications()
+    }
+
     func peripheralManagerDidUpdateState(_ manager: CBPeripheralManager) {
         guard manager.state == .poweredOn else { return }
         if isHosting { configureAndAdvertise() }
@@ -572,7 +592,7 @@ private extension BluetoothManager {
                 let id = GamePeer(id: packet.peerID, displayName: packet.displayName)
                 self.peerLocations[id] = CLLocationCoordinate2D(latitude: lat, longitude: lon)
                 if self.isHosting, let characteristic = self.notifyCharacteristic {
-                    _ = self.peripheralManager.updateValue(data, for: characteristic, onSubscribedCentrals: Array(self.subscribedCentrals.values))
+                    self.sendNotification(data, characteristic: characteristic)
                 }
             case .zombieSpawned(let id, let lat, let lon):
                 self.syncedZombies[id] = CLLocationCoordinate2D(latitude: lat, longitude: lon)
