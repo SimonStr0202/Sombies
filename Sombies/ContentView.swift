@@ -1,7 +1,6 @@
 import SwiftUI
 import MapKit
 import HealthKit
-import MultipeerConnectivity
 import Combine
 import SpriteKit
 import extendedSyntax
