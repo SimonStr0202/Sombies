@@ -230,6 +230,7 @@
 			buildPhases = (
 				F44730712F5C9FCC0082B17B /* Sources */,
 				F44730722F5C9FCC0082B17B /* Frameworks */,
+				F4EA9C4A30B0C37B003E001C /* Make Licenses.json */,
 				F44730732F5C9FCC0082B17B /* Resources */,
 				F49BCD552F68810000BA1B36 /* Embed Watch Content */,
 				F49BCD7D2F68868F00BA1B36 /* Embed Foundation Extensions */,
@@ -386,6 +387,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F4EA9C4A30B0C37B003E001C /* Make Licenses.json */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Make Licenses.json";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(PROJECT_DIR)/Sombies/LICENSES/licenses.json",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -euo pipefail\n\nTARGET_DIR=\"${PROJECT_DIR}/Sombies/LICENSES\"\nOUTPUT_FILE=\"${TARGET_DIR}/licenses.json\"\nSEARCH_ROOT=\"${BUILD_DIR%Build/Products*}SourcePackages/checkouts\"\n\nmkdir -p \"$TARGET_DIR\"\n\npython3 - \"$SEARCH_ROOT\" \"$OUTPUT_FILE\" <<'PY'\nimport glob, json, os, sys\n\nsearch_root, output_file = sys.argv[1], sys.argv[2]\nentries = []\n\nif os.path.isdir(search_root):\n    for pkg_dir in sorted(os.listdir(search_root)):\n        full_pkg = os.path.join(search_root, pkg_dir)\n        if not os.path.isdir(full_pkg):\n            continue\n\n        matches = sorted(\n            glob.glob(os.path.join(full_pkg, \"LICENSE*\"))\n            + glob.glob(os.path.join(full_pkg, \"LICENCE*\"))\n        )\n        if matches:\n            with open(matches[0], \"r\", encoding=\"utf-8\", errors=\"replace\") as f:\n                text = f.read().strip()\n            entries.append({\n                \"id\": pkg_dir,\n                \"name\": pkg_dir,\n                \"license\": text\n            })\n\nwith open(output_file, \"w\", encoding=\"utf-8\") as out:\n    json.dump(entries, out, ensure_ascii=False, indent=2)\nPY\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F44730712F5C9FCC0082B17B /* Sources */ = {

@@ -1,15 +1,19 @@
 import SwiftUI
 import MapKit
 import MultipeerConnectivity
+import SkimUI
 
 struct HostingView: View {
     @ObservedObject var vm: ContentViewModel
+    @Environment(\.presentToast) var presentToast
     @StateObject var locManager = LocationManager.shared
     @StateObject var session = GameSessionManager.shared
     
     // Für Supabase Raum-Erstellung
     @State private var hostRoomID = ""
     @State private var hostPassword = ""
+    
+    @State private var showPlayButtonLabel = true
     
     // Hilfsvariable für die Anzeige verbundener Spieler (unabhängig vom Netzwerk)
     var connectedPlayerNames: [String] {
@@ -28,7 +32,6 @@ struct HostingView: View {
         NavigationStack {
             VStack {
                 List {
-                    // Falls Supabase gewählt ist: Raum-Zugangsdaten eingeben
                     if session.selectedMode == .supabase && !isHosting {
                         Section("Raum-Einstellungen (Supabase)") {
                             TextField("Raum-ID", text: $hostRoomID)
@@ -53,26 +56,12 @@ struct HostingView: View {
                                 }
                             }
                         }
-                    }
-                }
-                .safeAreaInset(edge: .bottom) {
-                    VStack {
-                        Stepper("Spielerzahl: \(vm.hostPlayersAmount)", value: $vm.hostPlayersAmount, in: (isHosting ? 2 : 1)...8)
-                            .animation(.linear, value: vm.hostPlayersAmount)
-                            .contentTransition(.numericText())
-                            .disabled(!isHosting)
-                        
-                        Picker("Spielmodus", selection: $vm.gameMode) {
-                            if !vm.hideSlowMode {
-                                Text("Langsam").tag(-1)
-                            }
-                            Text("Normal").tag(0)
-                            Text("Joggen").tag(1)
-                            Text("Fahrrad").tag(2)
-                        }
-                        .pickerStyle(.segmented)
-                        
-                        HStack {
+                        if isHosting {
+                            Stepper("Spielerzahl: \(vm.hostPlayersAmount)", value: $vm.hostPlayersAmount, in: (isHosting ? 2 : 1)...8)
+                                .animation(.linear, value: vm.hostPlayersAmount)
+                                .contentTransition(.numericText())
+                                .disabled(!isHosting)
+                        } else {
                             Button("Sichtbar werden / Hosten") {
                                 Task {
                                     await session.hostParty(roomId: hostRoomID, password: hostPassword)
@@ -80,10 +69,14 @@ struct HostingView: View {
                                 }
                             }
                             .disabled(isHosting || (session.selectedMode == .supabase && hostRoomID.isEmpty))
-                            
-                            Spacer()
-                            
-                            Button("Los", systemImage: "play.fill") {
+                        }
+                    }
+                }
+                .safeAreaInset(edge: .bottom) {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            if vm.newGoal != nil {
                                 vm.hostingView = false
                                 vm.gameRunning = true
                                 
@@ -91,7 +84,6 @@ struct HostingView: View {
                                 session.startGame(mode: vm.gameMode)
                                 session.setExtractionPoint(near: vm.newGoal!)
                                 
-                                // Zombies spawnen
                                 for _ in 0...3 {
                                     var allPositions: [CLLocationCoordinate2D] = session.peerLocationsList
                                     
@@ -104,25 +96,52 @@ struct HostingView: View {
                                         session.broadcastZombieSpawn(id: UUID(), coord: zombieCoord)
                                     }
                                 }
+                            } else {
+                                presentToast(ToastValue(title: "Kein Ziel ausgewählt", message: "Wähle ein Ziel mit der Stecknadel in der oberen linken Ecke aus", type: .default))
                             }
-                            .font(.largeTitle.bold())
-                            .disabled(vm.newGoal == nil || !isHosting)
+                        }, label: {
+                            HStack {
+                                Image(systemName: "play.fill")
+                                if showPlayButtonLabel {
+                                    Text("Los")
+                                        .transition(.blurReplace)
+                                }
+                            }.padding(7)
+                        })
+                        .font(.largeTitle.bold())
+                        .buttonStyle(.glass(.regular.interactive().tint(vm.newGoal == nil ? .gray : .blue)))
+                        .padding()
+                        .accessibilityHint(Text("Spiel starten"))
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
+                                withAnimation {
+                                    showPlayButtonLabel = false
+                                }
+                            })
                         }
                     }
-                    .padding()
-                    .glassEffect(.regular, in: ContainerRelativeShape())
-                    .padding()
                 }
             }
             .navigationTitle("Hosten")
             .toolbar {
                 ToolbarItem(placement: .principal) {
+                    Picker("Spielmodus", selection: $vm.gameMode) {
+                        if !vm.hideSlowMode {
+                            Text("Langsam").tag(-1)
+                        }
+                        Text("Normal").tag(0)
+                        Text("Joggen").tag(1)
+                        Text("Fahrrad").tag(2)
+                    }
+                    .pickerStyle(.segmented)
+                    /*
                     Picker("Netzwerk", selection: $session.selectedMode) {
                         Text("Lokal").tag(NetworkMode.bluetooth)
                         Text("Internet").tag(NetworkMode.supabase)
                     }
                     .pickerStyle(.segmented)
                     .disabled(isHosting)
+                     */
                 }
                 
                 ToolbarItem(placement: .topBarLeading) {

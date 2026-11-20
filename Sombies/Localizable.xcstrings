@@ -582,6 +582,7 @@
       }
     },
     "Beispiel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -692,6 +693,9 @@
           }
         }
       }
+    },
+    "Das erwartet dich" : {
+
     },
     "Das Spiel wird für alle beendet" : {
       "localizations" : {
@@ -855,6 +859,7 @@
       }
     },
     "Ein großartiger Titel!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -870,7 +875,11 @@
         }
       }
     },
+    "Ein kurzer Überblick, was du in Sombies alles machen kannst." : {
+
+    },
     "Ein ziemlich langer Textblock, der einfach dazu da ist, um den Schimmereffekt zu visualisieren. Wenn du das hier aber lesen kannst, bist du ein großartiger Mensch! (Und sonst natürlich auch)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1095,9 +1104,6 @@
         }
       }
     },
-    "GameCenterKit" : {
-      "shouldTranslate" : false
-    },
     "Gehen Outdoor" : {
       "localizations" : {
         "de" : {
@@ -1227,6 +1233,7 @@
       }
     },
     "ID" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1243,6 +1250,7 @@
       }
     },
     "ID und Passwort eingeben" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1259,6 +1267,7 @@
       }
     },
     "Internet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1515,6 +1524,7 @@
       }
     },
     "Lizenz" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1531,6 +1541,7 @@
       }
     },
     "Lizenz nicht vorhanden" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1563,6 +1574,7 @@
       }
     },
     "Lokal" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1771,6 +1783,7 @@
       }
     },
     "Netzwerk" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2156,8 +2169,8 @@
         }
       }
     },
-    "SlideButton" : {
-      "shouldTranslate" : false
+    "Sombies" : {
+
     },
     "Sombies ist gesperrt" : {
       "localizations" : {
@@ -2206,6 +2219,9 @@
           }
         }
       }
+    },
+    "Spiel starten" : {
+
     },
     "Spielen" : {
       "localizations" : {
@@ -2271,6 +2287,9 @@
         }
       }
     },
+    "Standortzugriff" : {
+
+    },
     "Suche beenden?" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2287,15 +2306,6 @@
           }
         }
       }
-    },
-    "SwiftUI-Shimmer" : {
-      "shouldTranslate" : false
-    },
-    "swiftui-toasts" : {
-      "shouldTranslate" : false
-    },
-    "swiftui-window-overlay" : {
-      "shouldTranslate" : false
     },
     "Tab" : {
       "localizations" : {
@@ -2427,6 +2437,7 @@
       }
     },
     "Untertitel hierhin!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2571,6 +2582,9 @@
           }
         }
       }
+    },
+    "Willkommen bei" : {
+
     },
     "x%lld" : {
       "localizations" : {
