@@ -2,6 +2,7 @@ import SwiftUI
 import CoreLocation
 import Combine
 import SkimUI
+import CoreBluetooth
 
 enum OnboardingScreen: Int, CaseIterable, Identifiable {
     case intro
@@ -208,38 +209,41 @@ struct OnboardingView: View {
     }
 
     private var welcomeGuidesView: some View {
-        VStack(alignment: .leading, spacing: 28) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Das erwartet dich")
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-
-                Text("Ein kurzer Überblick, was du in Sombies alles machen kannst.")
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-            }
-            .padding(.top, 24)
-
-            VStack(spacing: 14) {
-                ForEach(Array(GuideItem.sombiesGuides.enumerated()), id: \.element.id) { index, guide in
-                    GuideRowView(guide: guide)
-                        .blur(radius: isVisible ? 0 : 8)
-                        .opacity(isVisible ? 1 : 0)
-                        .offset(y: isVisible ? 0 : 12)
-                        .animation(
-                            .smooth(duration: 0.5).delay(Double(index) * 0.08),
-                            value: isVisible
-                        )
+        ScrollView {
+            VStack(alignment: .leading, spacing: 28) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Das erwartet dich")
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                    
+                    Text("Ein kurzer Überblick, was du in Sombies alles machen kannst.")
+                        .font(.body)
+                        .foregroundStyle(.secondary)
                 }
+                .padding(.top, 24)
+                
+                VStack(spacing: 14) {
+                    ForEach(Array(GuideItem.sombiesGuides.enumerated()), id: \.element.id) { index, guide in
+                        GuideRowView(guide: guide)
+                            .blur(radius: isVisible ? 0 : 8)
+                            .opacity(isVisible ? 1 : 0)
+                            .offset(y: isVisible ? 0 : 12)
+                            .animation(
+                                .smooth(duration: 0.5).delay(Double(index) * 0.08),
+                                value: isVisible
+                            )
+                    }
+                }
+                
+                Spacer()
             }
-
-            Spacer()
-
-            primaryActionButton(title: "Loslegen") {
-                transitionToNextScreen()
-            }
-            .padding(.bottom, 16)
+            .padding(.horizontal, 24)
+            .safeAreaInset(edge: .bottom, content: {
+                primaryActionButton(title: "Weiter") {
+                    transitionToNextScreen()
+                }
+                .padding(.bottom, 16)
+            })
         }
-        .padding(.horizontal, 24)
     }
 
     private var requestLocationView: some View {

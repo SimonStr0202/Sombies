@@ -264,6 +264,8 @@ class SupabaseGameManager: ObservableObject {
         self.isHosting = false
         self.isScanning = false
         self.fullyConnected = false
+        localItems.removeAll()
+        syncedZombies.removeAll()
         self.peerLocations.removeAll()
         self.connectedPeers.removeAll()
     }

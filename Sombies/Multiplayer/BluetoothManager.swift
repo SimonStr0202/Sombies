@@ -1,3 +1,5 @@
+// Tests für den Blutooth-Modus müssen noch durchgeführt werden.
+
 import Combine
 import CoreLocation
 import Foundation
@@ -320,6 +322,8 @@ class BluetoothManager: NSObject, ObservableObject {
         fullyConnected = false
         connectedPeers.removeAll()
         peerLocations.removeAll()
+        localItems.removeAll()
+        syncedZombies.removeAll()
         pendingNotifications.removeAll()
     }
 

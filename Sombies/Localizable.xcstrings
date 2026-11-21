@@ -662,6 +662,9 @@
         }
       }
     },
+    "Bluetooth-Zugriff" : {
+
+    },
     "CPU-Auslastung" : {
       "localizations" : {
         "de" : {
