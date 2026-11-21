@@ -8,6 +8,10 @@ import SwiftUI
 import GameCenterKit
 import ActivityKit
 
+struct GameSignalContainer: Codable {
+    let signal: GameSignal
+}
+
 struct GamePeer: Hashable, Identifiable {
     let id: UUID
     let displayName: String
