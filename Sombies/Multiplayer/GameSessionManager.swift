@@ -1,7 +1,6 @@
 import Foundation
 import CoreLocation
 import Combine
-import MultipeerConnectivity
 
 enum NetworkMode: String, Codable {
     case bluetooth
