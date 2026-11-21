@@ -159,6 +159,10 @@ class BluetoothManager: NSObject, ObservableObject {
         super.init()
     }
 
+    func refreshBluetoothAuthorization() {
+        bluetoothAuthorization = CBManager.authorization
+    }
+
     /// Starts the CoreBluetooth authorization flow only after the user explicitly asks for it.
     func requestBluetoothPermissionAndWait() async -> CBManagerAuthorization {
         bluetoothAuthorization = CBManager.authorization
@@ -199,7 +203,6 @@ class BluetoothManager: NSObject, ObservableObject {
                     if let host = self.discoveredPeripherals.values.first(where: { $0.state == .connected }) {
                         self.centralManager?.cancelPeripheralConnection(host)
                     }
-                    self.stopAll()
                     self.stopAll()
                 }
             }
