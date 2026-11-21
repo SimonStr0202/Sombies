@@ -1,6 +1,15 @@
 {
-  "originHash" : "dce41696dbd6cf23fc77ecf6f34a1c92408a7100a312941be4ddbdd25176efd6",
+  "originHash" : "7e122d0f9e4055f41bf2ec881a1f9bb0debc5f9aa2e81939ab1e98ad6b3ae415",
   "pins" : [
+    {
+      "identity" : "extendedsyntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://www.github.com/SimonStr0202/extendedSyntax",
+      "state" : {
+        "branch" : "master",
+        "revision" : "d6af7921543ab4265e5eae44136db2cf8e6a5123"
+      }
+    },
     {
       "identity" : "gamecenterkit",
       "kind" : "remoteSourceControl",

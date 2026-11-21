@@ -237,13 +237,14 @@ struct OnboardingView: View {
                 Spacer()
             }
             .padding(.horizontal, 24)
-            .safeAreaInset(edge: .bottom, content: {
-                primaryActionButton(title: "Weiter") {
-                    transitionToNextScreen()
-                }
-                .padding(.bottom, 16)
-            })
         }
+        .safeAreaInset(edge: .bottom, content: {
+            primaryActionButton(title: "Weiter") {
+                transitionToNextScreen()
+            }
+            .padding(.bottom, 16)
+            .padding(.horizontal, 24)
+        })
     }
 
     private var requestLocationView: some View {
@@ -363,7 +364,7 @@ struct OnboardingView: View {
         case .denied, .restricted:
             return "Bluetooth ist derzeit nicht freigegeben. Du kannst die Berechtigung jederzeit in den iOS-Einstellungen ändern."
         case .notDetermined:
-            return "Bluetooth wird benötigt, um ohne WLAN mit Freunden in der Nähe zu spielen. Die Abfrage erscheint erst, wenn du hier auf „Bluetooth erlauben“ tippst."
+            return "Bluetooth wird benötigt, um ohne WLAN mit Freunden in der Nähe zu spielen."
         @unknown default:
             return "Bluetooth wird für lokale Mehrspielerpartien benötigt."
         }
@@ -374,9 +375,9 @@ struct OnboardingView: View {
         case .allowedAlways:
             return "Weiter"
         case .denied, .restricted:
-            return "Ohne Bluetooth weiter"
+            return "Weiter"
         case .notDetermined:
-            return isRequestingPermission ? "Warte auf Auswahl…" : "Bluetooth erlauben"
+            return isRequestingPermission ? "Warte auf Auswahl…" : "Weiter"
         @unknown default:
             return "Weiter"
         }
@@ -398,7 +399,7 @@ struct OnboardingView: View {
     private var locationIconName: String {
         switch locationCoordinator.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
-            return "location.fill.checkmark"
+            return "checkmark.circle.fill"
         case .denied, .restricted:
             return "location.slash.fill"
         case .notDetermined:
@@ -582,8 +583,7 @@ struct ConsentRowView: View {
             consentLabel
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(14)
-        .background(.quaternary.opacity(0.45), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .padding(20)
     }
 
     private var consentLabel: some View {

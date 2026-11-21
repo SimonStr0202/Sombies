@@ -809,6 +809,9 @@
         }
       }
     },
+    "Du musst mindestens 13 Jahre alt sein, um ein Konto zu erstellen" : {
+
+    },
     "Du verlässt das aktuelle Spiel" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1148,6 +1151,9 @@
           }
         }
       }
+    },
+    "Geburtstag" : {
+
     },
     "Gehen Outdoor" : {
       "localizations" : {
