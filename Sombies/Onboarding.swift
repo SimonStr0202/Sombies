@@ -7,6 +7,7 @@ enum OnboardingScreen: Int, CaseIterable, Identifiable {
     case intro
     case welcomeGuides
     case permissions
+    case bluetoothPermission
     case startScreen
 
     var id: Int { rawValue }
@@ -75,6 +76,7 @@ struct OnboardingView: View {
     @State private var acceptTerms = false
 
     @StateObject private var locationCoordinator = LocationPermissionCoordinator.shared
+    @ObservedObject private var bluetoothManager = BluetoothManager.shared
 
     var onFinish: () -> Void = {}
 
@@ -90,6 +92,8 @@ struct OnboardingView: View {
                     welcomeGuidesView
                 case .permissions:
                     requestLocationView
+                case .bluetoothPermission:
+                    requestBluetoothView
                 case .startScreen:
                     finalScreen
                 }
@@ -101,6 +105,9 @@ struct OnboardingView: View {
         .task(id: currentScreen) {
             if currentScreen == .permissions {
                 locationCoordinator.refreshStatus()
+            }
+            if currentScreen == .bluetoothPermission {
+                bluetoothManager.refreshBluetoothAuthorization()
             }
             isVisible = false
             isTransitioning = false
@@ -283,6 +290,105 @@ struct OnboardingView: View {
         .onAppear {
             locationCoordinator.refreshStatus()
         }
+    }
+
+    private var requestBluetoothView: some View {
+        VStack(spacing: 20) {
+            Spacer()
+
+            Image(systemName: bluetoothIconName)
+                .font(.system(size: 54))
+                .foregroundStyle(.green.gradient)
+                .symbolEffect(.bounce, value: isVisible)
+
+            VStack(spacing: 8) {
+                Text("Bluetooth-Zugriff")
+                    .font(.title.bold())
+                    .multilineTextAlignment(.center)
+
+                Text(bluetoothSubtitleText)
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            .padding(.horizontal, 32)
+
+            Spacer()
+
+            Button {
+                Task {
+                    await handleBluetoothContinue()
+                }
+            } label: {
+                HStack(spacing: 10) {
+                    if isRequestingPermission {
+                        ProgressView()
+                            .tint(.white)
+                    }
+                    Text(bluetoothButtonTitle)
+                        .font(.headline)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+            }
+            .buttonStyle(.glassProminent)
+            .tint(.green)
+            .disabled(isRequestingPermission || isTransitioning)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 16)
+        }
+    }
+
+    private var bluetoothIconName: String {
+        switch bluetoothManager.bluetoothAuthorization {
+        case .allowedAlways:
+            return "checkmark.circle.fill"
+        case .denied, .restricted:
+            return "bluetooth.slash"
+        case .notDetermined:
+            return "bluetooth"
+        @unknown default:
+            return "bluetooth"
+        }
+    }
+
+    private var bluetoothSubtitleText: String {
+        switch bluetoothManager.bluetoothAuthorization {
+        case .allowedAlways:
+            return "Bluetooth ist freigegeben. Du kannst direkt fortfahren."
+        case .denied, .restricted:
+            return "Bluetooth ist derzeit nicht freigegeben. Du kannst die Berechtigung jederzeit in den iOS-Einstellungen ändern."
+        case .notDetermined:
+            return "Bluetooth wird benötigt, um ohne WLAN mit Freunden in der Nähe zu spielen. Die Abfrage erscheint erst, wenn du hier auf „Bluetooth erlauben“ tippst."
+        @unknown default:
+            return "Bluetooth wird für lokale Mehrspielerpartien benötigt."
+        }
+    }
+
+    private var bluetoothButtonTitle: String {
+        switch bluetoothManager.bluetoothAuthorization {
+        case .allowedAlways:
+            return "Weiter"
+        case .denied, .restricted:
+            return "Ohne Bluetooth weiter"
+        case .notDetermined:
+            return isRequestingPermission ? "Warte auf Auswahl…" : "Bluetooth erlauben"
+        @unknown default:
+            return "Weiter"
+        }
+    }
+
+    private func handleBluetoothContinue() async {
+        guard !isRequestingPermission && !isTransitioning else { return }
+
+        if bluetoothManager.bluetoothAuthorization == .notDetermined {
+            isRequestingPermission = true
+            _ = await bluetoothManager.requestBluetoothPermissionAndWait()
+            isRequestingPermission = false
+            try? await Task.sleep(for: .milliseconds(180))
+        }
+
+        transitionToNextScreen()
     }
 
     private var locationIconName: String {
