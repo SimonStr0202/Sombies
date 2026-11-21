@@ -41,8 +41,10 @@ class BluetoothManager: NSObject, ObservableObject {
     private let serviceUUID = CBUUID(string: "A7B10001-5A4B-4D4F-9C2A-534F4D424945")
     private let writeUUID = CBUUID(string: "A7B10002-5A4B-4D4F-9C2A-534F4D424945")
     private let notifyUUID = CBUUID(string: "A7B10003-5A4B-4D4F-9C2A-534F4D424945")
-    private var peripheralManager: CBPeripheralManager!
-    private var centralManager: CBCentralManager!
+    private var peripheralManager: CBPeripheralManager?
+    private var centralManager: CBCentralManager?
+    @Published private(set) var bluetoothAuthorization: CBManagerAuthorization = CBManager.authorization
+    private var authorizationContinuation: CheckedContinuation<CBManagerAuthorization, Never>?
     private var subscribedCentrals: [UUID: CBCentral] = [:]
     private var peerNames: [UUID: String] = [:]
     private var discoveredPeripherals: [UUID: CBPeripheral] = [:]
@@ -155,8 +157,28 @@ class BluetoothManager: NSObject, ObservableObject {
     
     override init() {
         super.init()
-        peripheralManager = CBPeripheralManager(delegate: self, queue: .main)
-        centralManager = CBCentralManager(delegate: self, queue: .main)
+    }
+
+    /// Starts the CoreBluetooth authorization flow only after the user explicitly asks for it.
+    func requestBluetoothPermissionAndWait() async -> CBManagerAuthorization {
+        bluetoothAuthorization = CBManager.authorization
+        guard bluetoothAuthorization == .notDetermined else { return bluetoothAuthorization }
+
+        return await withCheckedContinuation { continuation in
+            authorizationContinuation = continuation
+            if centralManager == nil {
+                centralManager = CBCentralManager(delegate: self, queue: .main, options: [CBCentralManagerOptionShowPowerAlertKey: false])
+            }
+        }
+    }
+
+    private func ensureBluetoothManagers() {
+        if centralManager == nil {
+            centralManager = CBCentralManager(delegate: self, queue: .main, options: [CBCentralManagerOptionShowPowerAlertKey: false])
+        }
+        if peripheralManager == nil {
+            peripheralManager = CBPeripheralManager(delegate: self, queue: .main, options: [CBPeripheralManagerOptionShowPowerAlertKey: false])
+        }
     }
 
     private struct Packet: Codable {
@@ -175,7 +197,7 @@ class BluetoothManager: NSObject, ObservableObject {
                 } else if self.fullyConnected && Date().timeIntervalSince(self.lastPingReceivedAt) > 8 {
                     self.gameState = .gameOver
                     if let host = self.discoveredPeripherals.values.first(where: { $0.state == .connected }) {
-                        self.centralManager.cancelPeripheralConnection(host)
+                        self.centralManager?.cancelPeripheralConnection(host)
                     }
                     self.stopAll()
                     self.stopAll()
@@ -212,13 +234,14 @@ class BluetoothManager: NSObject, ObservableObject {
 
     private func sendNotification(_ data: Data, characteristic: CBMutableCharacteristic) {
         guard !subscribedCentrals.isEmpty else { return }
+        guard let peripheralManager else { return }
         if !peripheralManager.updateValue(data, for: characteristic, onSubscribedCentrals: Array(subscribedCentrals.values)) {
             pendingNotifications.append(data)
         }
     }
 
     private func flushPendingNotifications() {
-        guard let characteristic = notifyCharacteristic else { return }
+        guard let characteristic = notifyCharacteristic, let peripheralManager else { return }
         while !pendingNotifications.isEmpty && !subscribedCentrals.isEmpty {
             if !peripheralManager.updateValue(pendingNotifications[0], for: characteristic, onSubscribedCentrals: Array(subscribedCentrals.values)) { return }
             pendingNotifications.removeFirst()
@@ -230,11 +253,11 @@ class BluetoothManager: NSObject, ObservableObject {
     func leaveParty() {
         sendSignal(.partyAction(action: .leave))
         if isHosting {
-            peripheralManager.removeAllServices()
+            peripheralManager?.removeAllServices()
             subscribedCentrals.removeAll()
         } else {
-            centralManager.stopScan()
-            for peripheral in discoveredPeripherals.values { centralManager.cancelPeripheralConnection(peripheral) }
+            centralManager?.stopScan()
+            for peripheral in discoveredPeripherals.values { centralManager?.cancelPeripheralConnection(peripheral) }
         }
         stopAll()
     }
@@ -251,14 +274,16 @@ class BluetoothManager: NSObject, ObservableObject {
     }
 
     func hostParty() {
+        ensureBluetoothManagers()
         stopAll()
         isHosting = true
         isScanning = false
-        if peripheralManager.state == .poweredOn { configureAndAdvertise() }
+        if peripheralManager?.state == .poweredOn { configureAndAdvertise() }
         startHeartbeat()
     }
 
     private func configureAndAdvertise() {
+        guard let peripheralManager else { return }
         peripheralManager.removeAllServices()
         let write = CBMutableCharacteristic(type: writeUUID, properties: [.write, .writeWithoutResponse], value: nil, permissions: [.writeable])
         let notify = CBMutableCharacteristic(type: notifyUUID, properties: [.notify], value: nil, permissions: [.readable])
@@ -269,12 +294,13 @@ class BluetoothManager: NSObject, ObservableObject {
     }
 
     func lookForParties() {
+        ensureBluetoothManagers()
         stopAll()
         isHosting = false
         isScanning = true
         availablePeers.removeAll()
         discoveredPeripherals.removeAll()
-        if centralManager.state == .poweredOn { centralManager.scanForPeripherals(withServices: [serviceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false]) }
+        if centralManager?.state == .poweredOn { centralManager?.scanForPeripherals(withServices: [serviceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false]) }
         startHeartbeat()
     }
 
@@ -296,7 +322,7 @@ class BluetoothManager: NSObject, ObservableObject {
 
     func invitePeer(_ peerID: GamePeer) {
         guard let peripheral = discoveredPeripherals[peerID.id] else { return }
-        centralManager.connect(peripheral, options: nil)
+        centralManager?.connect(peripheral, options: nil)
     }
 
     func checkWinCondition(myLocation: CLLocationCoordinate2D) {
@@ -473,6 +499,11 @@ class BluetoothManager: NSObject, ObservableObject {
 
 extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        bluetoothAuthorization = CBManager.authorization
+        if bluetoothAuthorization != .notDetermined, let continuation = authorizationContinuation {
+            authorizationContinuation = nil
+            continuation.resume(returning: bluetoothAuthorization)
+        }
         if central.state == .poweredOn, isScanning {
             central.scanForPeripherals(withServices: [serviceUUID], options: nil)
         }
@@ -542,8 +573,8 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
     func peripheralManagerDidUpdateState(_ manager: CBPeripheralManager) {
         guard manager.state == .poweredOn else { return }
         if isHosting { configureAndAdvertise() }
-        if isScanning, centralManager.state == .poweredOn {
-            centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
+        if isScanning, centralManager?.state == .poweredOn {
+            centralManager?.scanForPeripherals(withServices: [serviceUUID], options: nil)
         }
     }
 
