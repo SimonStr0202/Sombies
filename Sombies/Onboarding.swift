@@ -152,7 +152,7 @@ struct OnboardingView: View {
                     isAccepted: $acceptPrivacy,
                     prefixText: "Ich stimme den",
                     linkTitle: "Datenschutzbestimmungen",
-                    linkURL: URL(string: "https://example.com/datenschutz"),
+                    linkURL: URL(string: "https://homepage.stroebele-simon.workers.dev/products/SombiesDetailPage/PrivacyPolicy/"),
                     suffixText: "zu."
                 )
 
@@ -160,12 +160,12 @@ struct OnboardingView: View {
                     isAccepted: $acceptTerms,
                     prefixText: "Ich stimme den",
                     linkTitle: "Nutzungsbedingungen",
-                    linkURL: URL(string: "https://example.com/nutzungsbedingungen"),
+                    linkURL: URL(string: "https://homepage.stroebele-simon.workers.dev/products/SombiesDetailPage/Terms/"),
                     suffixText: "zu."
                 )
             }
             
-            primaryActionButton(title: "Weiter") {
+            primaryActionButton(title: "Loslegen") {
                 transitionToNextScreen()
             }
             .disabled(!acceptTerms || !acceptPrivacy)
@@ -401,20 +401,26 @@ struct GuideItem: Identifiable {
         GuideItem(
             icon: "sparkles",
             tint: .green,
-            title: "Schnell starten",
-            description: "Erstelle Inhalte und Aktivitäten in wenigen Sekunden ohne kompliziertes Setup."
+            title: "Fit bleiben",
+            description: "Renne vor virtuellen Punkten weg."
         ),
         GuideItem(
-            icon: "square.grid.2x2.fill",
+            icon: "person.2.fill",
             tint: .mint,
-            title: "Alles an einem Ort",
-            description: "Behalte deinen Fortschritt, Favoriten und Übersichten jederzeit im Blick."
+            title: "Spiele mit Freunden",
+            description: "Du kannst mit Bluetooth mit Leuten in der Nähe spielen"
         ),
         GuideItem(
-            icon: "slider.horizontal.3",
+            icon: "star.fill",
             tint: .teal,
-            title: "Nach deinem Stil anpassen",
-            description: "Passe Ansichten und Abläufe flexibel genau so an, wie du arbeitest."
+            title: "Entdecke Orte",
+            description: "Vielleicht findest du bald dein neues Lieblingscafé oder deine neue Lieblingsbäckerei."
+        ),
+        GuideItem(
+            icon: "person.badge.shield.checkmark.fill",
+            tint: .cyan,
+            title: "Um Privatsphäre gebaut",
+            description: "Wir wissen nichts über dich. Selbst wenn die App aktiv genutzt wird, werden wir nicht wissen, wo du bist oder mit wem du dich triffst."
         )
     ]
 }

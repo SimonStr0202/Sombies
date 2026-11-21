@@ -163,23 +163,21 @@ struct MainMap: View {
             vm.gameStopwatch = 0
             vm.runStartDate = Date()
             sessionManager.startLiveActivity()
-            if !sessionManager.isHosting {
-                switch sessionManager.gameMode {
-                case -1:
-                    vm.antiCheatLimit = 5
-                    vm.gameMode = -1
-                case 0:
-                    vm.antiCheatLimit = 10
-                    vm.gameMode = 0
-                case 1:
-                    vm.antiCheatLimit = 15
-                    vm.gameMode = 1
-                case 2:
-                    vm.antiCheatLimit = 30
-                    vm.gameMode = 2
-                default:
-                    vm.antiCheatLimit = 10
-                }
+            switch sessionManager.gameMode {
+            case -1:
+                vm.antiCheatLimit = 5
+                vm.gameMode = -1
+            case 0:
+                vm.antiCheatLimit = 10
+                vm.gameMode = 0
+            case 1:
+                vm.antiCheatLimit = 15
+                vm.gameMode = 1
+            case 2:
+                vm.antiCheatLimit = 30
+                vm.gameMode = 2
+            default:
+                vm.antiCheatLimit = 10
             }
             UIApplication.shared.isIdleTimerDisabled = true
             locManager.manager.allowsBackgroundLocationUpdates = true

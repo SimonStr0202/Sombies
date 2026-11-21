@@ -912,6 +912,8 @@ struct Settings: View {
                 NavigationLink("Open-Source Lizenzen", destination: {
                     OpenSources()
                 })
+                Link("Datenschutzbestimmungen", destination: URL(string: "https://homepage.stroebele-simon.workers.dev/products/SombiesDetailPage/PrivacyPolicy/")!)
+                Link("Nutzungsbedingungen", destination: URL(string: "https://homepage.stroebele-simon.workers.dev/products/SombiesDetailPage/Terms/")!)
             })
         }
         .navigationTitle("Einstellungen")
