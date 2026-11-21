@@ -582,6 +582,7 @@
       }
     },
     "Beispiel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -693,6 +694,22 @@
         }
       }
     },
+    "Das erwartet dich" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das erwartet dich"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This awaits you"
+          }
+        }
+      }
+    },
     "Das Spiel wird für alle beendet" : {
       "localizations" : {
         "de" : {
@@ -705,6 +722,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The Game will be closed for everyone"
+          }
+        }
+      }
+    },
+    "Datenschutzbestimmungen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datenschutzbestimmungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
           }
         }
       }
@@ -855,6 +888,7 @@
       }
     },
     "Ein großartiger Titel!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -870,7 +904,24 @@
         }
       }
     },
+    "Ein kurzer Überblick, was du in Sombies alles machen kannst." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein kurzer Überblick, was du gleich alles machen kannst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A quick lookout what you can do in a few moments"
+          }
+        }
+      }
+    },
     "Ein ziemlich langer Textblock, der einfach dazu da ist, um den Schimmereffekt zu visualisieren. Wenn du das hier aber lesen kannst, bist du ein großartiger Mensch! (Und sonst natürlich auch)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1095,9 +1146,6 @@
         }
       }
     },
-    "GameCenterKit" : {
-      "shouldTranslate" : false
-    },
     "Gehen Outdoor" : {
       "localizations" : {
         "de" : {
@@ -1227,6 +1275,7 @@
       }
     },
     "ID" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1243,6 +1292,7 @@
       }
     },
     "ID und Passwort eingeben" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1259,6 +1309,7 @@
       }
     },
     "Internet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1515,6 +1566,7 @@
       }
     },
     "Lizenz" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1531,6 +1583,7 @@
       }
     },
     "Lizenz nicht vorhanden" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1563,6 +1616,7 @@
       }
     },
     "Lokal" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1771,6 +1825,7 @@
       }
     },
     "Netzwerk" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1830,6 +1885,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nr."
+          }
+        }
+      }
+    },
+    "Nutzungsbedingungen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nutzungsbedingungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of Use"
           }
         }
       }
@@ -2156,8 +2227,21 @@
         }
       }
     },
-    "SlideButton" : {
-      "shouldTranslate" : false
+    "Sombies" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sombies"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sombies"
+          }
+        }
+      }
     },
     "Sombies ist gesperrt" : {
       "localizations" : {
@@ -2203,6 +2287,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Game"
+          }
+        }
+      }
+    },
+    "Spiel starten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spiel starten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start game"
           }
         }
       }
@@ -2271,6 +2371,22 @@
         }
       }
     },
+    "Standortzugriff" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standortzugriff"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location Access"
+          }
+        }
+      }
+    },
     "Suche beenden?" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2287,15 +2403,6 @@
           }
         }
       }
-    },
-    "SwiftUI-Shimmer" : {
-      "shouldTranslate" : false
-    },
-    "swiftui-toasts" : {
-      "shouldTranslate" : false
-    },
-    "swiftui-window-overlay" : {
-      "shouldTranslate" : false
     },
     "Tab" : {
       "localizations" : {
@@ -2427,6 +2534,7 @@
       }
     },
     "Untertitel hierhin!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2568,6 +2676,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Way of Authentication"
+          }
+        }
+      }
+    },
+    "Willkommen bei" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Willkommen bei"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to"
           }
         }
       }

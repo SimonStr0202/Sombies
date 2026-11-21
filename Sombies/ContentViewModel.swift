@@ -114,6 +114,9 @@ class ContentViewModel: ObservableObject {
     @AppStorage("medkits") var medkits: Int = 0
     @AppStorage("navigators") var navigators: Int = 0
     
+    // Oboarding Hinweis
+    @AppStorage("showOnboarding") var showOnboarding = true
+    
     // Computed Properties
     var xpForNextAccountLevel: Double {
         let currentLvl = max(1, accountLevel)

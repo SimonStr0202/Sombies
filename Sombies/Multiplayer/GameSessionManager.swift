@@ -11,7 +11,7 @@ enum NetworkMode: String, Codable {
 class GameSessionManager: ObservableObject {
     static let shared = GameSessionManager()
     
-    @Published var selectedMode: NetworkMode = .supabase
+    @Published var selectedMode: NetworkMode = .bluetooth
     
     // Greift auf die jeweilige Instanz zu
     var bluetooth: BluetoothManager { BluetoothManager.shared }

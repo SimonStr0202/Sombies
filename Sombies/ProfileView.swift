@@ -5,6 +5,7 @@ import extendedSyntax
 import OSLog
 import GameCenterKit
 import Shimmer
+import SwiftyJSON
 
 struct ProfileView: View {
     @ObservedObject var vm: ContentViewModel
@@ -501,10 +502,28 @@ extension Array where Element == CLLocationCoordinate2D {
 
 import Toasts
 
+struct openSourceLicense: Identifiable, Codable {
+    var id: String
+    var name: String
+    var license: String
+}
+
 struct OpenSources: View {
     @Environment(\.presentToast) var presentToast
+    @State var licenseList: [openSourceLicense] = []
     var body: some View {
         List {
+            ForEach(licenseList) { license in
+                NavigationLink(license.name, destination: {
+                    ScrollView {
+                        Text(license.license)
+                            .monospaced()
+                            .padding()
+                    }
+                    .navigationTitle(license.name)
+                })
+            }
+            /*
             NavigationLink("SlideButton", destination: {
                 TabView {
                     Tab("Lizenz", systemImage: "sparkle.text.clipboard", content: {
@@ -607,8 +626,23 @@ struct OpenSources: View {
                 }
                 .navigationTitle("swiftui-window-overlay")
             })
+             */
         }
         .navigationTitle("Open-Source Lizenzen")
+        .onAppear {
+            guard let url = Bundle.main.url(forResource: "licenses", withExtension: "json") else {
+                Logger.system.error("Pfad existiert nicht")
+                return
+            }
+            
+            do {
+                let data = try Data(contentsOf: url)
+                let decoded = try JSONDecoder().decode([openSourceLicense].self, from: data)
+                licenseList = decoded
+            } catch {
+                Logger.system.error("Lizenzen konnten nicht geladen werden!")
+            }
+        }
     }
     func readBundleFile(name: String) -> String? {
         if let filepath = Bundle.main.path(forResource: name, ofType: "txt") {
@@ -878,6 +912,8 @@ struct Settings: View {
                 NavigationLink("Open-Source Lizenzen", destination: {
                     OpenSources()
                 })
+                Link("Datenschutzbestimmungen", destination: URL(string: "https://homepage.stroebele-simon.workers.dev/products/SombiesDetailPage/PrivacyPolicy/")!)
+                Link("Nutzungsbedingungen", destination: URL(string: "https://homepage.stroebele-simon.workers.dev/products/SombiesDetailPage/Terms/")!)
             })
         }
         .navigationTitle("Einstellungen")

@@ -7,8 +7,14 @@ struct SombiesApp: App {
     @ObservedObject var vm = ContentViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView(vm: vm)
-                .installToasts(position: .top)
+            if vm.showOnboarding {
+                OnboardingView(vm: vm)
+                    .transition(.blurReplace)
+            } else {
+                ContentView(vm: vm)
+                    .transition(.blurReplace)
+                    .installToasts(position: .top)
+            }
         }
     }
 }

@@ -78,24 +78,6 @@ struct ContentView: View {
                                         }
                                     }
                                 }
-                            } else if gameSessionManager.selectedMode == .supabase {
-                                List {
-                                    Section("ID und Passwort eingeben") {
-                                        TextField("ID", text: $joinRoomID)
-                                        SecureField("Passwort", text: $joinRoomPassword)
-                                    }
-                                    Section {
-                                        Button("Beitreten") {
-                                            Task {
-                                                await gameSessionManager.joinParty(roomId: joinRoomID, password: joinRoomPassword)
-                                                if gameSessionManager.fullyConnected {
-                                                    vm.inGame = true
-                                                }
-                                            }
-                                        }
-                                        .disabled(joinRoomID.isEmpty)
-                                    }
-                                }
                             }
                         } else {
                             // MARK: - Statusanzeige
@@ -114,15 +96,6 @@ struct ContentView: View {
                     }
                     .navigationTitle("Beitreten")
                     .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            Picker("Spielmodus", selection: $gameSessionManager.selectedMode) {
-                                Text("Lokal").tag(NetworkMode.bluetooth)
-                                Text("Internet").tag(NetworkMode.supabase)
-                            }
-                            .pickerStyle(.segmented)
-                            .disabled(vm.inGame)
-                        }
-                        
                         ToolbarItem(placement: .topBarTrailing) {
                             Button("Schließen", systemImage: "xmark") {
                                 if vm.inGame || gameSessionManager.fullyConnected {

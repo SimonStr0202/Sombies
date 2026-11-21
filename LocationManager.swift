@@ -22,8 +22,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         #if !os(watchOS)
         manager.pausesLocationUpdatesAutomatically = true
         #endif
-        
-        manager.requestWhenInUseAuthorization()
     }
     
     func startUpdating() {
