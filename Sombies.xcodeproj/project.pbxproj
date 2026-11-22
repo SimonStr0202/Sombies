@@ -12,6 +12,7 @@
 		F417BC662FBCE45A00DAAFC6 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = F417BC652FBCE45A00DAAFC6 /* Shimmer */; };
 		F41CF85930A3AD0900B3C782 /* SkimUI in Frameworks */ = {isa = PBXBuildFile; productRef = F41CF85830A3AD0900B3C782 /* SkimUI */; };
 		F44248D730A259FC001CD770 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = F44248D630A259FC001CD770 /* SwiftyJSON */; };
+		F448D09230B2436F009C0CFC /* extendedSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = F448D09130B2436F009C0CFC /* extendedSyntax */; };
 		F457BB0F2F61F6930063A1E7 /* SlideButton in Frameworks */ = {isa = PBXBuildFile; productRef = F457BB0E2F61F6930063A1E7 /* SlideButton */; };
 		F47062302FB259A60025A2E3 /* GameCenterKit in Frameworks */ = {isa = PBXBuildFile; productRef = F470622F2FB259A60025A2E3 /* GameCenterKit */; };
 		F490979D2FBB9AE3004B07DF /* Toasts in Frameworks */ = {isa = PBXBuildFile; productRef = F490979C2FBB9AE3004B07DF /* Toasts */; };
@@ -147,6 +148,7 @@
 				F4ADF98B305997D700850AB1 /* Supabase in Frameworks */,
 				F4ADF987305997D700850AB1 /* Realtime in Frameworks */,
 				F490979D2FBB9AE3004B07DF /* Toasts in Frameworks */,
+				F448D09230B2436F009C0CFC /* extendedSyntax in Frameworks */,
 				F417BC662FBCE45A00DAAFC6 /* Shimmer in Frameworks */,
 				F4ADF981305997D700850AB1 /* Auth in Frameworks */,
 				F457BB0F2F61F6930063A1E7 /* SlideButton in Frameworks */,
@@ -259,6 +261,7 @@
 				F4ADF98A305997D700850AB1 /* Supabase */,
 				F44248D630A259FC001CD770 /* SwiftyJSON */,
 				F41CF85830A3AD0900B3C782 /* SkimUI */,
+				F448D09130B2436F009C0CFC /* extendedSyntax */,
 			);
 			productName = Sombies;
 			productReference = F44730752F5C9FCC0082B17B /* Sombies.app */;
@@ -340,7 +343,6 @@
 			mainGroup = F447306C2F5C9FCC0082B17B;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				F4B946462F60A1250062C584 /* XCLocalSwiftPackageReference "../extendedSyntax" */,
 				F457BB0D2F61F6930063A1E7 /* XCRemoteSwiftPackageReference "SlideButton" */,
 				F470622E2FB259A60025A2E3 /* XCRemoteSwiftPackageReference "GameCenterKit" */,
 				F490979B2FBB9AE3004B07DF /* XCRemoteSwiftPackageReference "swiftui-toasts" */,
@@ -348,6 +350,7 @@
 				F4ADF97F305997D700850AB1 /* XCRemoteSwiftPackageReference "supabase-swift" */,
 				F44248D530A259FC001CD770 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				F41CF85730A3AD0900B3C782 /* XCRemoteSwiftPackageReference "skim-ui-ios" */,
+				F448D09030B2436F009C0CFC /* XCRemoteSwiftPackageReference "extendedSyntax" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F44730762F5C9FCC0082B17B /* Products */;
@@ -855,13 +858,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		F4B946462F60A1250062C584 /* XCLocalSwiftPackageReference "../extendedSyntax" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../extendedSyntax;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		F417BC642FBCE45A00DAAFC6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -885,6 +881,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.2;
+			};
+		};
+		F448D09030B2436F009C0CFC /* XCRemoteSwiftPackageReference "extendedSyntax" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://www.github.com/SimonStr0202/extendedSyntax";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 		F457BB0D2F61F6930063A1E7 /* XCRemoteSwiftPackageReference "SlideButton" */ = {
@@ -938,6 +942,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F44248D530A259FC001CD770 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		F448D09130B2436F009C0CFC /* extendedSyntax */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F448D09030B2436F009C0CFC /* XCRemoteSwiftPackageReference "extendedSyntax" */;
+			productName = extendedSyntax;
 		};
 		F457BB0E2F61F6930063A1E7 /* SlideButton */ = {
 			isa = XCSwiftPackageProductDependency;

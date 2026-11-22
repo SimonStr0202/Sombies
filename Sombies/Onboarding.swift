@@ -2,11 +2,13 @@ import SwiftUI
 import CoreLocation
 import Combine
 import SkimUI
+import CoreBluetooth
 
 enum OnboardingScreen: Int, CaseIterable, Identifiable {
     case intro
     case welcomeGuides
     case permissions
+    case bluetoothPermission
     case startScreen
 
     var id: Int { rawValue }
@@ -75,6 +77,7 @@ struct OnboardingView: View {
     @State private var acceptTerms = false
 
     @StateObject private var locationCoordinator = LocationPermissionCoordinator.shared
+    @ObservedObject private var bluetoothManager = BluetoothManager.shared
 
     var onFinish: () -> Void = {}
 
@@ -90,6 +93,8 @@ struct OnboardingView: View {
                     welcomeGuidesView
                 case .permissions:
                     requestLocationView
+                case .bluetoothPermission:
+                    requestBluetoothView
                 case .startScreen:
                     finalScreen
                 }
@@ -101,6 +106,9 @@ struct OnboardingView: View {
         .task(id: currentScreen) {
             if currentScreen == .permissions {
                 locationCoordinator.refreshStatus()
+            }
+            if currentScreen == .bluetoothPermission {
+                bluetoothManager.refreshBluetoothAuthorization()
             }
             isVisible = false
             isTransitioning = false
@@ -201,38 +209,42 @@ struct OnboardingView: View {
     }
 
     private var welcomeGuidesView: some View {
-        VStack(alignment: .leading, spacing: 28) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Das erwartet dich")
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-
-                Text("Ein kurzer Überblick, was du in Sombies alles machen kannst.")
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-            }
-            .padding(.top, 24)
-
-            VStack(spacing: 14) {
-                ForEach(Array(GuideItem.sombiesGuides.enumerated()), id: \.element.id) { index, guide in
-                    GuideRowView(guide: guide)
-                        .blur(radius: isVisible ? 0 : 8)
-                        .opacity(isVisible ? 1 : 0)
-                        .offset(y: isVisible ? 0 : 12)
-                        .animation(
-                            .smooth(duration: 0.5).delay(Double(index) * 0.08),
-                            value: isVisible
-                        )
+        ScrollView {
+            VStack(alignment: .leading, spacing: 28) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Das erwartet dich")
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                    
+                    Text("Ein kurzer Überblick, was du in Sombies alles machen kannst.")
+                        .font(.body)
+                        .foregroundStyle(.secondary)
                 }
+                .padding(.top, 24)
+                
+                VStack(spacing: 14) {
+                    ForEach(Array(GuideItem.sombiesGuides.enumerated()), id: \.element.id) { index, guide in
+                        GuideRowView(guide: guide)
+                            .blur(radius: isVisible ? 0 : 8)
+                            .opacity(isVisible ? 1 : 0)
+                            .offset(y: isVisible ? 0 : 12)
+                            .animation(
+                                .smooth(duration: 0.5).delay(Double(index) * 0.08),
+                                value: isVisible
+                            )
+                    }
+                }
+                
+                Spacer()
             }
-
-            Spacer()
-
-            primaryActionButton(title: "Loslegen") {
+            .padding(.horizontal, 24)
+        }
+        .safeAreaInset(edge: .bottom, content: {
+            primaryActionButton(title: "Weiter") {
                 transitionToNextScreen()
             }
             .padding(.bottom, 16)
-        }
-        .padding(.horizontal, 24)
+            .padding(.horizontal, 24)
+        })
     }
 
     private var requestLocationView: some View {
@@ -285,10 +297,109 @@ struct OnboardingView: View {
         }
     }
 
+    private var requestBluetoothView: some View {
+        VStack(spacing: 20) {
+            Spacer()
+
+            Image(systemName: bluetoothIconName)
+                .font(.system(size: 54))
+                .foregroundStyle(.green.gradient)
+                .symbolEffect(.bounce, value: isVisible)
+
+            VStack(spacing: 8) {
+                Text("Bluetooth-Zugriff")
+                    .font(.title.bold())
+                    .multilineTextAlignment(.center)
+
+                Text(bluetoothSubtitleText)
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            .padding(.horizontal, 32)
+
+            Spacer()
+
+            Button {
+                Task {
+                    await handleBluetoothContinue()
+                }
+            } label: {
+                HStack(spacing: 10) {
+                    if isRequestingPermission {
+                        ProgressView()
+                            .tint(.white)
+                    }
+                    Text(bluetoothButtonTitle)
+                        .font(.headline)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+            }
+            .buttonStyle(.glassProminent)
+            .tint(.green)
+            .disabled(isRequestingPermission || isTransitioning)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 16)
+        }
+    }
+
+    private var bluetoothIconName: String {
+        switch bluetoothManager.bluetoothAuthorization {
+        case .allowedAlways:
+            return "checkmark.circle.fill"
+        case .denied, .restricted:
+            return "bluetooth.slash"
+        case .notDetermined:
+            return "bluetooth"
+        @unknown default:
+            return "bluetooth"
+        }
+    }
+
+    private var bluetoothSubtitleText: String {
+        switch bluetoothManager.bluetoothAuthorization {
+        case .allowedAlways:
+            return "Bluetooth ist freigegeben. Du kannst direkt fortfahren."
+        case .denied, .restricted:
+            return "Bluetooth ist derzeit nicht freigegeben. Du kannst die Berechtigung jederzeit in den iOS-Einstellungen ändern."
+        case .notDetermined:
+            return "Bluetooth wird benötigt, um ohne WLAN mit Freunden in der Nähe zu spielen."
+        @unknown default:
+            return "Bluetooth wird für lokale Mehrspielerpartien benötigt."
+        }
+    }
+
+    private var bluetoothButtonTitle: String {
+        switch bluetoothManager.bluetoothAuthorization {
+        case .allowedAlways:
+            return "Weiter"
+        case .denied, .restricted:
+            return "Weiter"
+        case .notDetermined:
+            return isRequestingPermission ? "Warte auf Auswahl…" : "Weiter"
+        @unknown default:
+            return "Weiter"
+        }
+    }
+
+    private func handleBluetoothContinue() async {
+        guard !isRequestingPermission && !isTransitioning else { return }
+
+        if bluetoothManager.bluetoothAuthorization == .notDetermined {
+            isRequestingPermission = true
+            _ = await bluetoothManager.requestBluetoothPermissionAndWait()
+            isRequestingPermission = false
+            try? await Task.sleep(for: .milliseconds(180))
+        }
+
+        transitionToNextScreen()
+    }
+
     private var locationIconName: String {
         switch locationCoordinator.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
-            return "location.fill.checkmark"
+            return "checkmark.circle.fill"
         case .denied, .restricted:
             return "location.slash.fill"
         case .notDetermined:
@@ -472,8 +583,7 @@ struct ConsentRowView: View {
             consentLabel
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(14)
-        .background(.quaternary.opacity(0.45), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .padding(20)
     }
 
     private var consentLabel: some View {
